@@ -600,7 +600,7 @@ class Component extends DCLogic {
         archive:"ארכיון מחזורים",archiveSub:"רווח/הפסד לכל שחקן, לכל מחזור",noSettled:"עוד לא נסגר אף מחזור.",noArchive:"הארכיון יתמלא אחרי המחזור הראשון שייסגר.",round:"מחזור",
         rules:"חלון המסחר הוא יום ראשון בין 08:00 ל־10:00 — שעתיים, פעם בשבוע. בפתיחה כל משתתף מקבל את המנה השבועית; מה שלא הונח עד 10:00 מתפרק, בדיוק כמו כל דבר אחר פה. ההימורים תקפים לכל השבוע, התוצאות נכנסות ביום חמישי והזכיות נספרות לטבלת העונה. הימור אחד לכל שוק. הכול בצחוק, אף אחד לא באמת מפסיד כסף.",
         adminGate:"לוח הבקרה",adminGateSub:"נדרש קוד מנהל/ת.",code:"קוד",enter:"כניסה",wrongCode:"קוד שגוי.",
-        setResults:"רישום תוצאות",setResultsSub:"סימון תוצאה סוגר את השוק ומחשב זכיות מיד לכולם.",lockNow:"נעל/י מסחר עכשיו",unlock:"פתח/י מסחר מחדש",clear:"נקה",
+        setResults:"רישום תוצאות",setResultsSub:"סימון תוצאה סוגר את השוק ומחשב זכיות מיד לכולם.",lockNow:"נעל/י מסחר עכשיו",unlock:"פתח/י מסחר להיום (חריג)",clear:"נקה",
         editMarkets:"עריכת שווקים",editMarketsSub:"אפשר לשנות שם, תיאור, אפשרויות ויחסים. הטקסט שתקליד/י מחליף את שתי השפות; שינוי יחס משפיע גם על הימורים שכבר הונחו.",
         edit:"ערוך",save:"שמור",revert:"החזר למקור",addOption:"הוסף אפשרות",optionLabel:"אפשרות",oddsLabel:"יחס",addToRound:"הוסף שוק מהמאגר",
         minTwo:"צריך שם ולפחות שתי אפשרויות.",marketSaved:"השוק עודכן.",marketReset:"השוק הוחזר למקור.",marketAdded:"השוק נוסף למחזור.",inRound:"במחזור",
@@ -623,7 +623,7 @@ class Component extends DCLogic {
         archive:"Round archive",archiveSub:"Profit and loss per player, per round",noSettled:"No round has been settled yet.",noArchive:"The archive fills in after the first settled round.",round:"Round",
         rules:"The trading window is Sunday, 08:00 to 10:00 — two hours, once a week. At open each player gets the weekly allowance; whatever is unstaked at 10:00 evaporates, like everything else around here. Bets stand for the whole week, results land on Thursday, and winnings count towards the season table. One bet per market. It's all a joke — nobody actually loses money.",
         adminGate:"Control room",adminGateSub:"Admin code required.",code:"Code",enter:"Enter",wrongCode:"Wrong code.",
-        setResults:"Record results",setResultsSub:"Marking a result closes the market and pays out immediately for everyone.",lockNow:"Lock trading now",unlock:"Reopen trading",clear:"Clear",
+        setResults:"Record results",setResultsSub:"Marking a result closes the market and pays out immediately for everyone.",lockNow:"Lock trading now",unlock:"Open trading for today (exception)",clear:"Clear",
         editMarkets:"Edit markets",editMarketsSub:"Change the title, description, options and odds. Text you type replaces both languages; changing odds also affects bets already placed.",
         edit:"Edit",save:"Save",revert:"Reset to default",addOption:"Add option",optionLabel:"Option",oddsLabel:"Odds",addToRound:"Add a market from the catalogue",
         minTwo:"Needs a title and at least two options.",marketSaved:"Market updated.",marketReset:"Market reset to default.",marketAdded:"Market added to the round.",inRound:"in round",
@@ -933,8 +933,10 @@ class Component extends DCLogic {
     this.saveWeek({results:r},this.tt().saved);
   }
   toggleLock(){ var open=this.state.now<this.lockMs(this.CUR) && !this.beforeOpen(this.CUR);
+    var p=this.parts(new Date());
+    var endOfToday=this.wallClock(p.y,p.m,p.d,23,59).getTime();
     this.saveWeek(open? {lockAtMs:Date.now(), lockOverride:true}
-      : {lockAtMs:Date.now()+2*36e5, lockOverride:true, openAtMs:Date.now(), openOverride:true}, this.tt().saved); }
+      : {lockAtMs:endOfToday, lockOverride:true, openAtMs:Date.now(), openOverride:true}, this.tt().saved); }
   addMarket(){
     var title=this.state.newTitle.trim();
     var lines=this.state.newOpts.split("\n").map(function(l){return l.trim();}).filter(Boolean);
