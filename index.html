@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#f7f8fc;-webkit-font-smoothing:antialiased}
+a{color:#1B2C9B}a:hover{color:#7B5DB5}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit}
+:focus-visible{outline:2px solid #7B5DB5;outline-offset:2px}
+@keyframes dkpop{from{transform:translateY(10px);opacity:0}}
+</style>
+</helmet>
+
+<div dir="{{ dir }}" style="min-height:100vh;background:#f7f8fc;color:#2c3356;font-family:'Assistant','Inter',system-ui,sans-serif;font-size:14px;line-height:1.5">
+
+<sc-if value="{{ needsLogin }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(180deg,#1B2C9B 0%,#141f6e 100%)">
+    <div style="width:100%;max-width:420px;background:#ffffff;border-radius:14px;box-shadow:0 18px 50px rgba(10,16,60,.35);overflow:hidden">
+      <div style="padding:26px 26px 20px;border-bottom:1px solid #eef0f6">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;border-radius:10px;background:#1B2C9B;display:grid;place-items:center;flex:none">
+            <div style="width:14px;height:14px;border-radius:50%;background:#7B5DB5"></div>
+          </div>
+          <div>
+            <div style="font-size:19px;font-weight:800;letter-spacing:-.01em;color:#2c3356">{{ t.brand }}</div>
+            <div style="font-size:12.5px;color:#5a6282">{{ t.tagline }}</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:22px 26px 26px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:13.5px;color:#5a6282">{{ t.loginHelp }}</div>
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5a6282">{{ t.yourName }}</span>
+          <input type="text" maxlength="24" autocomplete="off" value="{{ loginName }}" onInput="{{ onLoginName }}" style="height:44px;padding:0 12px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:15px;color:#2c3356">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5a6282">{{ t.yourPin }}</span>
+          <input type="password" inputmode="numeric" maxlength="4" autocomplete="off" value="{{ loginPin }}" onInput="{{ onLoginPin }}" onKeyDown="{{ onLoginKey }}" style="height:44px;padding:0 12px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-family:'Inter',monospace;font-size:20px;letter-spacing:.35em;color:#2c3356">
+          <span style="font-size:12px;color:#9299b8">{{ t.pinHint }}</span>
+        </label>
+        <sc-if value="{{ loginErr }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fdecea;color:#c0392b;border-radius:8px;padding:9px 12px;font-size:13px;font-weight:600">{{ loginErr }}</div>
+        </sc-if>
+        <button type="button" onClick="{{ onLogin }}" style="height:46px;border:0;border-radius:8px;background:#1B2C9B;color:#ffffff;font-size:15px;font-weight:700" style-hover="background:#141f6e">{{ loginCta }}</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eef0f6;padding-top:12px">
+          <span style="font-size:12px;color:#9299b8">{{ playerCountLine }}</span>
+          <button type="button" onClick="{{ toggleLang }}" style="border:1px solid #dde0ec;background:#ffffff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;color:#5a6282">{{ langLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ true }}">
+<div>
+  <header style="background:#1B2C9B;box-shadow:0 2px 10px rgba(27,44,155,.25)">
+    <div style="max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:11px;min-width:0">
+        <div style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.14);display:grid;place-items:center;flex:none">
+          <div style="width:12px;height:12px;border-radius:50%;background:#b9a7e0"></div>
+        </div>
+        <div style="min-width:0">
+          <div style="font-size:16px;font-weight:800;color:#ffffff;letter-spacing:-.01em;white-space:nowrap">{{ t.brand }}</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ roundLine }}</div>
+        </div>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div style="{{ statusPillStyle }}">{{ statusText }}</div>
+        <div style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border-radius:999px;padding:5px 12px">
+          <span style="font-size:11px;color:rgba(255,255,255,.62);font-weight:600">{{ t.closesIn }}</span>
+          <span style="font-family:'Inter',monospace;font-size:13px;font-weight:600;color:#ffffff;font-variant-numeric:tabular-nums">{{ countdown }}</span>
+        </div>
+        <button type="button" onClick="{{ toggleLang }}" style="border:1px solid rgba(255,255,255,.28);background:transparent;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:#ffffff">{{ langLabel }}</button>
+        <div style="display:flex;align-items:center;gap:9px;background:#ffffff;border-radius:999px;padding:4px 5px 4px 12px">
+          <span style="font-size:12.5px;font-weight:700;color:#2c3356;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ myName }}</span>
+          <div style="width:28px;height:28px;border-radius:50%;background:#7B5DB5;color:#ffffff;display:grid;place-items:center;font-size:11.5px;font-weight:700;flex:none">{{ initials }}</div>
+        </div>
+        <button type="button" onClick="{{ onLogout }}" title="{{ t.logout }}" style="border:1px solid rgba(255,255,255,.28);background:transparent;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:rgba(255,255,255,.85)">{{ t.logout }}</button>
+      </div>
+    </div>
+    <div style="max-width:1180px;margin:0 auto;padding:0 12px;display:flex;gap:2px;overflow-x:auto">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+        <button type="button" onClick="{{ tab.onClick }}" style="{{ tab.style }}">
+          <span>{{ tab.label }}</span>
+          <sc-if value="{{ tab.badge }}" hint-placeholder-val="{{ false }}">
+            <span style="{{ tab.badgeStyle }}">{{ tab.badge }}</span>
+          </sc-if>
+        </button>
+      </sc-for>
+    </div>
+  </header>
+
+  <sc-if value="{{ annText }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#fef3dc;border-bottom:1px solid #f0dfb4">
+      <div style="max-width:1180px;margin:0 auto;padding:11px 20px;display:flex;gap:10px;align-items:baseline">
+        <span style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#c47b0b;white-space:nowrap">{{ t.announcement }}</span>
+        <span style="font-size:13.5px;color:#7a5307">{{ annText }}</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <main style="max-width:1180px;margin:0 auto;padding:22px 20px 70px">
+
+    <sc-if value="{{ isBet }}" hint-placeholder-val="{{ true }}">
+    <section data-screen-label="Bet" style="display:flex;flex-direction:column;gap:18px">
+      <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:16px 18px;display:flex;flex-wrap:wrap;gap:18px;align-items:center">
+        <div style="min-width:170px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#5a6282">{{ t.budgetLeft }}</div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-top:2px">
+            <span style="font-family:'Inter',monospace;font-size:34px;font-weight:700;line-height:1;color:#1B2C9B;font-variant-numeric:tabular-nums">{{ leftText }}</span>
+            <span style="font-size:13px;font-weight:600;color:#9299b8">{{ grantText }}</span>
+          </div>
+        </div>
+        <div style="flex:1;min-width:200px">
+          <div style="height:8px;border-radius:5px;background:#eef0f6;overflow:hidden">
+            <div style="{{ budgetBarStyle }}"></div>
+          </div>
+          <div style="font-size:12.5px;color:#5a6282;margin-top:7px">{{ budgetSub }}</div>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#5a6282">{{ t.betsPlaced }}</div>
+            <div style="font-family:'Inter',monospace;font-size:19px;font-weight:700;color:#2c3356">{{ myBetsLine }}</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#5a6282">{{ t.maxPayout }}</div>
+            <div style="font-family:'Inter',monospace;font-size:19px;font-weight:700;color:#1a8c5b">{{ myMaxPayout }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:16px;align-items:start">
+        <sc-for list="{{ markets }}" as="m" hint-placeholder-count="5">
+          <article style="{{ m.cardStyle }}">
+            <div style="display:flex;gap:11px;align-items:flex-start;padding:15px 16px 12px">
+              <div style="width:34px;height:34px;border-radius:9px;background:#f7f8fc;border:1px solid #eef0f6;display:grid;place-items:center;font-size:17px;flex:none">{{ m.ico }}</div>
+              <div style="flex:1;min-width:0">
+                <h3 style="margin:0;font-size:16px;font-weight:800;letter-spacing:-.01em;color:#2c3356;text-wrap:pretty">{{ m.title }}</h3>
+                <div style="font-size:12.5px;color:#5a6282;margin-top:2px;text-wrap:pretty">{{ m.sub }}</div>
+              </div>
+              <span style="{{ m.kindStyle }}">{{ m.kindLabel }}</span>
+            </div>
+            <div style="padding:0 16px;display:flex;flex-direction:column;gap:6px">
+              <sc-for list="{{ m.options }}" as="o" hint-placeholder-count="4">
+                <button type="button" onClick="{{ o.onPick }}" disabled="{{ o.disabled }}" style="{{ o.style }}">
+                  <span style="{{ o.labelStyle }}">{{ o.label }}</span>
+                  <span style="display:flex;align-items:center;gap:6px;flex:none">
+                    <sc-if value="{{ o.showShare }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:flex;align-items:center;gap:5px">
+                        <span style="width:42px;height:5px;border-radius:3px;background:#eef0f6;overflow:hidden;display:block">
+                          <span style="{{ o.shareStyle }}"></span>
+                        </span>
+                        <span style="font-family:'Inter',monospace;font-size:11px;font-weight:600;color:#9299b8;width:30px;text-align:end">{{ o.pctText }}</span>
+                      </span>
+                    </sc-if>
+                    <span style="{{ o.oddsStyle }}">{{ o.oddsText }}</span>
+                  </span>
+                </button>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{ m.canBet }}" hint-placeholder-val="{{ true }}">
+              <div style="margin:13px 16px 0;padding:13px 0 0;border-top:1px dashed #dde0ec">
+                <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+                  <input type="number" min="10" max="100000" step="10" value="{{ m.amount }}" onInput="{{ m.onAmount }}" aria-label="{{ t.stake }}" style="width:92px;height:38px;padding:0 10px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-family:'Inter',monospace;font-size:15px;font-weight:600;color:#2c3356">
+                  <div style="display:flex;gap:5px">
+                    <sc-for list="{{ m.chips }}" as="c" hint-placeholder-count="3">
+                      <button type="button" onClick="{{ c.onClick }}" style="border:1px solid #dde0ec;background:#ffffff;border-radius:999px;padding:6px 11px;font-family:'Inter',monospace;font-size:12.5px;font-weight:600;color:#5a6282" style-hover="border-color:#7B5DB5;color:#7B5DB5">{{ c.label }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="flex:1"></div>
+                  <button type="button" onClick="{{ m.onPlace }}" disabled="{{ m.placeDisabled }}" style="{{ m.placeStyle }}">{{ m.placeLabel }}</button>
+                  <sc-if value="{{ m.hasBet }}" hint-placeholder-val="{{ false }}">
+                    <button type="button" onClick="{{ m.onClear }}" style="height:38px;padding:0 12px;border:1px solid #dde0ec;background:#ffffff;border-radius:8px;font-size:13px;font-weight:600;color:#5a6282" style-hover="border-color:#c0392b;color:#c0392b">{{ t.cancel }}</button>
+                  </sc-if>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin-top:9px;padding-bottom:14px">
+                  <span style="font-size:12.5px;color:#5a6282">{{ m.pickLine }}</span>
+                  <span style="{{ m.payoutLineStyle }}">{{ m.payoutLine }}</span>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ m.statusLine }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ m.statusLineStyle }}">
+                <span>{{ m.statusLine }}</span>
+                <sc-if value="{{ m.myLine }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-weight:700;color:#2c3356">{{ m.myLine }}</span>
+                </sc-if>
+              </div>
+            </sc-if>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ isDash }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Dashboard" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:14px 16px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="{{ s.dotStyle }}"></span>
+              <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5a6282">{{ s.label }}</span>
+            </div>
+            <div style="{{ s.valueStyle }}">{{ s.value }}</div>
+            <div style="font-size:12.5px;color:#9299b8;margin-top:1px">{{ s.sub }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;align-items:start">
+        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #eef0f6;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.leaderboard }}</h2>
+            <span style="font-size:12px;color:#9299b8">{{ t.leaderboardSub }}</span>
+          </div>
+          <div style="padding:8px">
+            <sc-for list="{{ leaders }}" as="r" hint-placeholder-count="5">
+              <div style="{{ r.rowStyle }}">
+                <span style="font-family:'Inter',monospace;font-size:12px;font-weight:600;color:#9299b8;width:20px;text-align:center">{{ r.rank }}</span>
+                <span style="{{ r.avatarStyle }}">{{ r.initials }}</span>
+                <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;font-weight:600;color:#2c3356">{{ r.name }}</span>
+                <span style="font-size:12px;color:#9299b8">{{ r.meta }}</span>
+                <span style="{{ r.netStyle }}">{{ r.net }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noLeaders }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:14px;font-size:13px;color:#9299b8">{{ t.noPlayers }}</div>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #eef0f6;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.whoIn }}</h2>
+            <span style="font-size:12px;color:#9299b8">{{ whoInCount }}</span>
+          </div>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:14px">
+            <div>
+              <div style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1a8c5b;margin-bottom:7px">{{ t.placedAll }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{ placedList }}" as="p" hint-placeholder-count="4">
+                  <span style="{{ p.style }}">{{ p.name }}<span style="font-family:'Inter',monospace;font-weight:700;color:#5a6282">{{ p.amount }}</span></span>
+                </sc-for>
+                <sc-if value="{{ noPlaced }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:13px;color:#9299b8">{{ t.nobodyYet }}</span>
+                </sc-if>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#c47b0b;margin-bottom:7px">{{ t.notYet }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{ missingList }}" as="p" hint-placeholder-count="3">
+                  <span style="{{ p.style }}">{{ p.name }}</span>
+                </sc-for>
+                <sc-if value="{{ noMissing }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:13px;color:#9299b8">{{ t.allIn }}</span>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid #eef0f6;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.sentiment }}</h2>
+          <span style="font-size:12px;color:#9299b8">{{ sentimentSub }}</span>
+        </div>
+        <div style="padding:6px 16px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px">
+          <sc-for list="{{ sentiment }}" as="s" hint-placeholder-count="4">
+            <div>
+              <div style="display:flex;gap:8px;align-items:baseline;margin:12px 0 9px">
+                <span style="font-size:15px">{{ s.ico }}</span>
+                <span style="font-size:13.5px;font-weight:700;color:#2c3356">{{ s.title }}</span>
+                <span style="font-family:'Inter',monospace;font-size:12px;color:#9299b8;margin-inline-start:auto">{{ s.total }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="3">
+                  <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
+                    <div style="min-width:0">
+                      <div style="font-size:12.5px;color:#5a6282;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.label }}</div>
+                      <div style="height:7px;border-radius:4px;background:#eef0f6;overflow:hidden;margin-top:4px">
+                        <div style="{{ r.barStyle }}"></div>
+                      </div>
+                    </div>
+                    <div style="font-family:'Inter',monospace;font-size:12px;font-weight:600;color:#2c3356;width:52px;text-align:end">{{ r.value }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ isSeason }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Season" style="display:flex;flex-direction:column;gap:18px">
+      <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid #eef0f6">
+          <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.seasonTable }}</h2>
+          <div style="font-size:12.5px;color:#9299b8;margin-top:2px">{{ t.seasonSub }}</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px">
+            <thead>
+              <tr>
+                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec">{{ t.player }}</th>
+                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec">{{ t.rounds }}</th>
+                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec">{{ t.hitRate }}</th>
+                <th style="text-align:end;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec">{{ t.net }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ seasonRows }}" as="r" hint-placeholder-count="5">
+                <tr style="{{ r.trStyle }}">
+                  <td style="padding:10px 14px;border-bottom:1px solid #eef0f6">
+                    <span style="display:flex;align-items:center;gap:9px">
+                      <span style="{{ r.avatarStyle }}">{{ r.initials }}</span>
+                      <span style="font-weight:600;color:#2c3356">{{ r.name }}</span>
+                    </span>
+                  </td>
+                  <td style="padding:10px 14px;border-bottom:1px solid #eef0f6;font-family:'Inter',monospace;color:#5a6282">{{ r.rounds }}</td>
+                  <td style="padding:10px 14px;border-bottom:1px solid #eef0f6;font-family:'Inter',monospace;color:#5a6282">{{ r.hit }}</td>
+                  <td style="{{ r.netTdStyle }}">{{ r.net }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+        <sc-if value="{{ noSeason }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:16px;font-size:13px;color:#9299b8">{{ t.noSettled }}</div>
+        </sc-if>
+      </div>
+
+      <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid #eef0f6">
+          <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.archive }}</h2>
+          <div style="font-size:12.5px;color:#9299b8;margin-top:2px">{{ t.archiveSub }}</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr>
+                <sc-for list="{{ archHead }}" as="h" hint-placeholder-count="4">
+                  <th style="{{ h.style }}">{{ h.label }}</th>
+                </sc-for>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ archRows }}" as="r" hint-placeholder-count="3">
+                <tr>
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="4">
+                    <td style="{{ c.style }}">{{ c.value }}</td>
+                  </sc-for>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+        <sc-if value="{{ noArch }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:16px;font-size:13px;color:#9299b8">{{ t.noArchive }}</div>
+        </sc-if>
+      </div>
+
+      <p style="margin:0;background:#eef0f6;border-radius:12px;padding:16px 18px;font-size:13px;color:#5a6282;max-width:70ch;text-wrap:pretty">{{ t.rules }}</p>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ isAdminTab }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Admin" style="display:flex;flex-direction:column;gap:16px">
+      <sc-if value="{{ needsCode }}" hint-placeholder-val="{{ true }}">
+        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:20px;max-width:420px">
+          <h2 style="margin:0 0 4px;font-size:15px;font-weight:800;color:#2c3356">{{ t.adminGate }}</h2>
+          <div style="font-size:13px;color:#5a6282;margin-bottom:12px">{{ t.adminGateSub }}</div>
+          <div style="display:flex;gap:8px">
+            <input type="password" value="{{ code }}" onInput="{{ onCode }}" onKeyDown="{{ onCodeKey }}" placeholder="{{ t.code }}" style="flex:1;height:40px;padding:0 11px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:14px;color:#2c3356">
+            <button type="button" onClick="{{ onCodeGo }}" style="height:40px;padding:0 16px;border:0;border-radius:8px;background:#1B2C9B;color:#ffffff;font-size:14px;font-weight:700">{{ t.enter }}</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ adminOk }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #eef0f6;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+            <div>
+              <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.setResults }}</h2>
+              <div style="font-size:12.5px;color:#9299b8;margin-top:2px">{{ t.setResultsSub }}</div>
+            </div>
+            <button type="button" onClick="{{ onToggleLock }}" style="height:36px;padding:0 14px;border:1px solid #dde0ec;background:#ffffff;border-radius:8px;font-size:13px;font-weight:700;color:#2c3356">{{ lockBtnLabel }}</button>
+          </div>
+          <div style="padding:4px 16px 16px">
+            <sc-for list="{{ adminMarkets }}" as="m" hint-placeholder-count="5">
+              <div style="padding:13px 0;border-bottom:1px solid #eef0f6">
+                <div style="display:flex;gap:8px;align-items:baseline;margin-bottom:8px">
+                  <span>{{ m.ico }}</span>
+                  <span style="font-size:13.5px;font-weight:700;color:#2c3356">{{ m.title }}</span>
+                  <span style="{{ m.stateStyle }}">{{ m.stateLabel }}</span>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ m.options }}" as="o" hint-placeholder-count="4">
+                    <button type="button" onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+                  </sc-for>
+                  <button type="button" onClick="{{ m.onClearResult }}" style="border:1px solid #dde0ec;background:#ffffff;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:#9299b8">{{ t.clear }}</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;align-items:start">
+          <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:16px">
+            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.newMarket }}</h2>
+            <div style="font-size:12.5px;color:#9299b8;margin:2px 0 12px">{{ t.newMarketSub }}</div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;gap:8px">
+                <input type="text" maxlength="2" value="{{ newIco }}" onInput="{{ onNewIco }}" aria-label="icon" style="width:52px;height:40px;text-align:center;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:18px">
+                <input type="text" maxlength="60" value="{{ newTitle }}" onInput="{{ onNewTitle }}" placeholder="{{ t.marketTitle }}" style="flex:1;height:40px;padding:0 11px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:14px;color:#2c3356">
+              </div>
+              <textarea rows="5" value="{{ newOpts }}" onInput="{{ onNewOpts }}" placeholder="{{ t.optionsPlaceholder }}" style="width:100%;padding:10px 11px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:13.5px;color:#2c3356;resize:vertical"></textarea>
+              <div style="display:flex;gap:8px;align-items:center">
+                <button type="button" onClick="{{ onAddMarket }}" style="height:38px;padding:0 15px;border:0;border-radius:8px;background:#1B2C9B;color:#ffffff;font-size:13.5px;font-weight:700">{{ t.addMarket }}</button>
+                <span style="font-size:12px;color:#9299b8">{{ t.addMarketHint }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:16px">
+            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.announce }}</h2>
+            <div style="font-size:12.5px;color:#9299b8;margin:2px 0 12px">{{ t.announceSub }}</div>
+            <textarea rows="3" value="{{ annDraft }}" onInput="{{ onAnnDraft }}" placeholder="{{ t.announcePlaceholder }}" style="width:100%;padding:10px 11px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:13.5px;color:#2c3356;resize:vertical"></textarea>
+            <div style="display:flex;gap:8px;margin-top:9px">
+              <button type="button" onClick="{{ onPublishAnn }}" style="height:38px;padding:0 15px;border:0;border-radius:8px;background:#c47b0b;color:#ffffff;font-size:13.5px;font-weight:700">{{ t.publish }}</button>
+              <button type="button" onClick="{{ onClearAnn }}" style="height:38px;padding:0 13px;border:1px solid #dde0ec;background:#ffffff;border-radius:8px;font-size:13.5px;font-weight:600;color:#5a6282">{{ t.clear }}</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #eef0f6">
+            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.roster }}</h2>
+            <div style="font-size:12.5px;color:#9299b8;margin-top:2px">{{ t.rosterSub }}</div>
+          </div>
+          <div style="padding:8px">
+            <sc-for list="{{ roster }}" as="p" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px">
+                <span style="{{ p.avatarStyle }}">{{ p.initials }}</span>
+                <span style="flex:1;min-width:0;font-size:13.5px;font-weight:600;color:#2c3356;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+                <span style="font-family:'Inter',monospace;font-size:12px;color:#9299b8">{{ p.meta }}</span>
+                <button type="button" onClick="{{ p.onResetPin }}" style="border:1px solid #dde0ec;background:#ffffff;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:#5a6282">{{ t.resetPin }}</button>
+                <button type="button" onClick="{{ p.onRemove }}" style="border:1px solid #fdecea;background:#fdecea;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:#c0392b">{{ t.remove }}</button>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </section>
+    </sc-if>
+  </main>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset-inline:0;bottom:22px;display:flex;justify-content:center;pointer-events:none;z-index:50">
+    <div style="background:#2c3356;color:#ffffff;border-radius:999px;padding:10px 18px;font-size:13.5px;font-weight:600;box-shadow:0 10px 30px rgba(10,16,60,.3);animation:dkpop .25s ease">{{ toast }}</div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset-inline-start:14px;bottom:14px;background:#fef3dc;color:#7a5307;border:1px solid #f0dfb4;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;z-index:40">{{ t.offline }}</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;weeklyGrant&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1000,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:100,&quot;max&quot;:10000,&quot;step&quot;:100,&quot;section&quot;:&quot;Game rules&quot;},&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;he&quot;,&quot;en&quot;],&quot;default&quot;:&quot;he&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Game rules&quot;},&quot;showSentimentToAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Game rules&quot;}}">
+class Component extends DCLogic {
+  constructor(p){
+    super(p);
+    this.TZ = "Asia/Jerusalem";
+    this.DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    this.ADMIN_CODE = "lu177";
+    this.FIXED = [
+      {id:"valerie",ico:"⏰",he:"ואלרי השבוע",en:"Valerie this week",
+       heSub:"שלושה מצבי צבירה. אחד מהם נדיר במיוחד.",enSub:"Three possible states. One of them is exceptionally rare.",
+       options:[{id:"late",he:"מגיעה — באיחור",en:"Arrives — late",odds:1.4},{id:"noshow",he:"לא מגיעה בכלל",en:"No-show",odds:3},{id:"ontime",he:"מגיעה בזמן",en:"Arrives on time",odds:8}]},
+      {id:"logistics",ico:"📦",he:"בעיות לוגיסטיות השבוע",en:"Logistics problems this week",
+       heSub:"נספר לפי מה שהגיע לקבוצה. משלוח, מכס, קליברציה, אריזה.",enSub:"Counted by what lands in the group. Shipping, customs, calibration, packing.",
+       options:[{id:"p12",he:"1–2 בעיות",en:"1–2 problems",odds:1.5},{id:"p34",he:"3–4 בעיות",en:"3–4 problems",odds:2.3},{id:"p5",he:"5 ומעלה — בלגן",en:"5 or more — chaos",odds:4},{id:"p0",he:"אפס. שקט מוחלט",en:"Zero. Total silence",odds:15}]}
+    ];
+    this.ROTATING = [
+      {id:"beef",ico:"🥊",he:"מי היה בביף",en:"Who had the beef",heSub:"בלי שמות — מחלקות בלבד. אפשר לסמן כמה; הסכום מתחלק שווה בשווה.",enSub:"No names — departments only. Pick several; the stake splits evenly.",multi:true,
+       options:[{id:"mgmt",he:"הנהלה בכירה",en:"Senior management",odds:3.2},{id:"qa",he:"QA",en:"QA",odds:2.4},{id:"sales",he:"מכירות",en:"Sales",odds:2.6},{id:"log",he:"לוגיסטיקה",en:"Logistics",odds:2},{id:"ops",he:"תפעול",en:"Operations",odds:2.2},{id:"prod",he:"ייצור",en:"Production",odds:2.3},{id:"qc",he:"QC",en:"QC",odds:2.8},{id:"fin",he:"כספים",en:"Finance",odds:3},{id:"ra",he:"RA",en:"RA",odds:3.4},{id:"none",he:"שבוע של אהבה — אפס ביף",en:"A week of love — zero beef",odds:6,excl:true}]},
+      {id:"salesmeeting",ico:"😴",he:"ישיבת המכירות",en:"The sales meeting",heSub:"רמת האנרגיה בחדר.",enSub:"Energy level in the room.",
+       options:[{id:"sleep",he:"כולם מנומנמים, כלום לא קורה",en:"Everyone drowsy, nothing happens",odds:1.5},{id:"scene",he:"מישהו יתעורר ויעשה סצנה",en:"Someone wakes up and makes a scene",odds:3},{id:"short",he:"תיגמר מוקדם כי אין מה להגיד",en:"Ends early — nothing to say",odds:2.6},{id:"useful",he:"דווקא ייצא ממנה משהו",en:"Something useful comes out of it",odds:4.5}]},
+      {id:"shipment",ico:"🛃",he:"המשלוח שייתקע",en:"The shipment that gets stuck",heSub:"איפה זה ייתפס השבוע.",enSub:"Where it gets caught this week.",
+       options:[{id:"customs",he:"במכס",en:"At customs",odds:2},{id:"flight",he:"בשדה — פספוס טיסה",en:"At the airport — missed flight",odds:2.6},{id:"courier",he:"אצל המוביל או הקוריר",en:"With the carrier or courier",odds:2.8},{id:"clean",he:"הכול יגיע חלק",en:"Everything arrives smoothly",odds:3.4}]},
+      {id:"meeting",ico:"📅",he:"ישיבת הצוות",en:"The team meeting",heSub:"מה יקרה לה השבוע.",enSub:"What happens to it this week.",
+       options:[{id:"late",he:"תתחיל באיחור של 10 דק׳ ומעלה",en:"Starts 10+ minutes late",odds:1.4},{id:"moved",he:"תידחה לשעה אחרת",en:"Moved to another time",odds:2.8},{id:"cancel",he:"תתבטל לגמרי",en:"Cancelled entirely",odds:4},{id:"ontime",he:"תתחיל בזמן",en:"Starts on time",odds:6}]},
+      {id:"urgent",ico:"📧",he:"המייל ה״דחוף!!״",en:"The \"URGENT!!\" email",heSub:"מתי ינחת המייל עם שלושה סימני קריאה.",enSub:"When the three-exclamation-mark email lands.",
+       options:[{id:"night",he:"אחרי 19:00",en:"After 19:00",odds:1.8},{id:"multi",he:"יותר מאחד השבוע",en:"More than one this week",odds:2.2},{id:"wknd",he:"בשישי או בשבת",en:"On Friday or Saturday",odds:2.4},{id:"none",he:"שבוע בלי",en:"A week without one",odds:6}]},
+      {id:"tb161",ico:"🧪",he:"כמה פעמים יגידו Tb-161",en:"How many times \"Tb-161\" is said",heSub:"ספירה מצטברת בישיבות השבוע.",enSub:"Cumulative count across this week's meetings.",
+       options:[{id:"a",he:"0–2",en:"0–2",odds:3},{id:"b",he:"3–6",en:"3–6",odds:1.9},{id:"c",he:"7–12",en:"7–12",odds:2.4},{id:"d",he:"13 ומעלה",en:"13 or more",odds:4.5}]},
+      {id:"coffee",ico:"☕",he:"מכונת הקפה",en:"The coffee machine",heSub:"הציוד הקריטי באמת במפעל.",enSub:"The truly critical equipment on site.",
+       options:[{id:"broke",he:"תתקלקל",en:"Breaks down",odds:2.6},{id:"out",he:"ייגמר הקפה",en:"Runs out of coffee",odds:2.2},{id:"mess",he:"מישהו ישאיר בלגן",en:"Someone leaves a mess",odds:1.8},{id:"fine",he:"שבוע מושלם",en:"A flawless week",odds:5}]},
+      {id:"po",ico:"📈",he:"ההזמנה המפתיעה",en:"The surprise order",heSub:"PO שאף אחד לא ציפה לו.",enSub:"A PO nobody saw coming.",
+       options:[{id:"big",he:"כן — וגדול",en:"Yes — and big",odds:4},{id:"small",he:"כן — קטן",en:"Yes — small",odds:2.4},{id:"almost",he:"כמעט, אבל לא נסגר",en:"Almost, but not closed",odds:2.6},{id:"quiet",he:"שקט בקו",en:"Quiet on the line",odds:2.2}]},
+      {id:"deadline",ico:"⏳",he:"הדדליין שיזוז",en:"The deadline that moves",heSub:"מה יידחה השבוע.",enSub:"What slips this week.",
+       options:[{id:"ship",he:"משלוח ללקוח",en:"A customer shipment",odds:2.6},{id:"doc",he:"דוח או מסמך פנימי",en:"An internal report or doc",odds:1.9},{id:"call",he:"שיחה עם לקוח",en:"A customer call",odds:2.8},{id:"none",he:"הכול לפי התוכנית",en:"All according to plan",odds:5.5}]},
+      {id:"whatsapp",ico:"📱",he:"קבוצת הוואטסאפ",en:"The WhatsApp group",heSub:"שיא ההודעות ביום אחד השבוע.",enSub:"Peak messages in a single day this week.",
+       options:[{id:"a",he:"עד 20",en:"Up to 20",odds:3.2},{id:"b",he:"21–50",en:"21–50",odds:1.9},{id:"c",he:"51–100",en:"51–100",odds:2.6},{id:"d",he:"מעל 100",en:"Over 100",odds:4}]}
+    ];
+    this.T = {
+      he:{brand:"בורסת הדירקים",tagline:"מסחר פנימי בסיכונים תפעוליים",loginHelp:"שם וארבע ספרות. אם זו הפעם הראשונה — הקוד שתקיש/י הוא הקוד שלך מעתה.",
+        yourName:"השם שלך",yourPin:"קוד אישי",pinHint:"ארבע ספרות. אל תשכח/י אותן — אין כאן מחלקת שירות לקוחות.",signIn:"כניסה",createAccount:"פתיחת חשבון",logout:"יציאה",
+        tabBet:"הימורים",tabDash:"לוח מחוונים",tabSeason:"העונה",tabAdmin:"ניהול",closesIn:"נעילה בעוד",open:"מסחר פתוח",locked:"מסחר נעול",settled:"תוצאות פורסמו",
+        budgetLeft:"נותר להימור",betsPlaced:"הימורים",maxPayout:"תשלום מקסימלי",stake:"סכום",place:"הנח/י הימור",update:"עדכן/י",cancel:"בטל/י",
+        fixed:"קבוע",rotating:"מתחלף",custom:"מיוחד",pickOne:"בחר/י אפשרות אחת",pickMulti:"אפשר לסמן כמה — הסכום מתחלק שווה בשווה",
+        announcement:"הודעה",leaderboard:"טבלת העונה",leaderboardSub:"נטו מצטבר",whoIn:"מי בפנים השבוע",placedAll:"הימרו",notYet:"טרם הימרו",nobodyYet:"אף אחד עדיין. שקט מחשיד.",allIn:"כולם בפנים.",
+        sentiment:"איפה הכסף יושב",noPlayers:"אף אחד לא נכנס עדיין.",totalInPlay:"סך הכסף על השולחן",players:"שחקנים",biggestWin:"הזכייה הגדולה",biggestLoss:"ההפסד הגדול",
+        seasonTable:"טבלת העונה",seasonSub:"נטו מצטבר על כל המחזורים שנסגרו",player:"שחקן/ית",rounds:"מחזורים",hitRate:"אחוז פגיעה",net:"נטו",
+        archive:"ארכיון מחזורים",archiveSub:"רווח/הפסד לכל שחקן, לכל מחזור",noSettled:"עוד לא נסגר אף מחזור.",noArchive:"הארכיון יתמלא אחרי המחזור הראשון שייסגר.",round:"מחזור",
+        rules:"כל יום ראשון כל משתתף מקבל את המנה השבועית. מה שלא הימרת עד הנעילה ביום שני ב־12:00 — מתפרק, בדיוק כמו כל דבר אחר פה. ביום חמישי נכנסות התוצאות והזכיות נספרות לטבלת העונה. הימור אחד לכל שוק. הכול בצחוק, אף אחד לא באמת מפסיד כסף.",
+        adminGate:"לוח הבקרה",adminGateSub:"נדרש קוד מנהל/ת.",code:"קוד",enter:"כניסה",wrongCode:"קוד שגוי.",
+        setResults:"רישום תוצאות",setResultsSub:"סימון תוצאה סוגר את השוק ומחשב זכיות מיד לכולם.",lockNow:"נעל/י מסחר עכשיו",unlock:"פתח/י מסחר מחדש",clear:"נקה",
+        newMarket:"שוק חדש למחזור",newMarketSub:"נוסף למחזור הנוכחי ומופיע לכולם.",marketTitle:"שם השוק",optionsPlaceholder:"אפשרות | יחס\nלמשל:\nכן, יקרה | 2.5\nלא יקרה | 1.6",addMarket:"הוסף/י שוק",addMarketHint:"שורה לכל אפשרות",
+        announce:"הודעה לכולם",announceSub:"מופיעה בראש המסך לכל המשתתפים.",announcePlaceholder:"למשל: התוצאות של השבוע נכנסו. מזל טוב לדני.",publish:"פרסם/י",
+        roster:"רשימת שחקנים",rosterSub:"אפשר לאפס קוד אישי או להסיר שחקן/ית.",resetPin:"אפס קוד",remove:"הסר",
+        won:"זכית ב־",lost:"הפסדת",noBetHere:"לא הימרת פה",result:"תוצאה",lockedWait:"המסחר נעול. ממתינים לתוצאות.",yourBet:"ההימור שלך",notBetYet:"טרם הימרת",
+        needPick:"בחר/י אפשרות.",badAmount:"סכום לא תקין.",noFunds:"אין מספיק דירקים. נותרו ",placed:"ההימור נרשם.",cleared:"ההימור בוטל.",saved:"נשמר.",
+        offline:"עותק מקומי — הנתונים נשמרים בדפדפן הזה בלבד",dk:"דירקים",potential:"תשלום פוטנציאלי",nameTooShort:"צריך שם, ולו קצר.",pinBad:"קוד של ארבע ספרות.",pinWrong:"קוד שגוי. נסה/י שוב.",
+        playersRegistered:" שחקנים רשומים",splitAcross:" אפשרויות · "},
+      en:{brand:"The Dirks Exchange",tagline:"Internal trading in operational risk",loginHelp:"A name and four digits. First time here? The code you type becomes your code.",
+        yourName:"Your name",yourPin:"Personal code",pinHint:"Four digits. Don't forget them — there is no support desk.",signIn:"Sign in",createAccount:"Create account",logout:"Sign out",
+        tabBet:"Bet",tabDash:"Dashboard",tabSeason:"Season",tabAdmin:"Admin",closesIn:"Closes in",open:"Trading open",locked:"Trading locked",settled:"Results published",
+        budgetLeft:"Left to stake",betsPlaced:"Bets",maxPayout:"Max payout",stake:"Stake",place:"Place bet",update:"Update",cancel:"Cancel",
+        fixed:"Fixed",rotating:"Rotating",custom:"Special",pickOne:"Pick one option",pickMulti:"Pick several — the stake splits evenly",
+        announcement:"Notice",leaderboard:"Season table",leaderboardSub:"Cumulative net",whoIn:"Who's in this week",placedAll:"Placed",notYet:"Not yet",nobodyYet:"Nobody yet. Suspiciously quiet.",allIn:"Everyone is in.",
+        sentiment:"Where the money sits",noPlayers:"Nobody has joined yet.",totalInPlay:"Total on the table",players:"Players",biggestWin:"Biggest win",biggestLoss:"Biggest loss",
+        seasonTable:"Season table",seasonSub:"Cumulative net across all settled rounds",player:"Player",rounds:"Rounds",hitRate:"Hit rate",net:"Net",
+        archive:"Round archive",archiveSub:"Profit and loss per player, per round",noSettled:"No round has been settled yet.",noArchive:"The archive fills in after the first settled round.",round:"Round",
+        rules:"Every Sunday each player gets the weekly allowance. Whatever you haven't staked by Monday 12:00 evaporates, like everything else around here. Results land on Thursday and winnings count towards the season table. One bet per market. It's all a joke — nobody actually loses money.",
+        adminGate:"Control room",adminGateSub:"Admin code required.",code:"Code",enter:"Enter",wrongCode:"Wrong code.",
+        setResults:"Record results",setResultsSub:"Marking a result closes the market and pays out immediately for everyone.",lockNow:"Lock trading now",unlock:"Reopen trading",clear:"Clear",
+        newMarket:"New market for this round",newMarketSub:"Added to the current round and visible to everyone.",marketTitle:"Market title",optionsPlaceholder:"option | odds\ne.g.\nYes, it happens | 2.5\nNo | 1.6",addMarket:"Add market",addMarketHint:"One line per option",
+        announce:"Notice to everyone",announceSub:"Shown at the top of the screen for all players.",announcePlaceholder:"e.g. This week's results are in. Congratulations, Dan.",publish:"Publish",
+        roster:"Player roster",rosterSub:"Reset a personal code or remove a player.",resetPin:"Reset code",remove:"Remove",
+        won:"Won ",lost:"Lost",noBetHere:"No bet here",result:"Result",lockedWait:"Trading locked. Waiting for results.",yourBet:"Your bet",notBetYet:"No bet yet",
+        needPick:"Pick an option.",badAmount:"Invalid amount.",noFunds:"Not enough dirks. Remaining: ",placed:"Bet recorded.",cleared:"Bet cancelled.",saved:"Saved.",
+        offline:"Local copy — data is stored in this browser only",dk:"Dk",potential:"Potential payout",nameTooShort:"A name, however short.",pinBad:"Four digits, please.",pinWrong:"Wrong code. Try again.",
+        playersRegistered:" players registered",splitAcross:" options · "}
+    };
+    this.CUR = this.weekIdOf(new Date());
+    this.state = {lang:(p.defaultLang||"he"),tab:"bet",pid:null,players:{},bets:{},weeks:{},
+      sel:{},amt:{},loginName:"",loginPin:"",loginErr:"",adminOk:false,code:"",
+      now:Date.now(),ready:false,toast:"",offline:false,newIco:"🎲",newTitle:"",newOpts:"",annDraft:""};
+  }
+
+  /* ---------- time ---------- */
+  parts(date){
+    var f = new Intl.DateTimeFormat("en-CA",{timeZone:this.TZ,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,weekday:"short"});
+    var o={}; f.formatToParts(date).forEach(function(p){o[p.type]=p.value;});
+    return {y:+o.year,m:+o.month,d:+o.day,h:+(o.hour==="24"?"0":o.hour),mi:+o.minute,s:+o.second,dow:this.DOW.indexOf(o.weekday)};
+  }
+  tzOffset(date){ var p=this.parts(date); return Date.UTC(p.y,p.m-1,p.d,p.h,p.mi,p.s)-date.getTime(); }
+  wallClock(y,m,d,h,mi){ var g=new Date(Date.UTC(y,m-1,d,h,mi)); var o=this.tzOffset(g); var one=new Date(g.getTime()-o); return new Date(g.getTime()-this.tzOffset(one)); }
+  weekStartParts(date){ var p=this.parts(date); var b=new Date(Date.UTC(p.y,p.m-1,p.d)-p.dow*864e5); return {y:b.getUTCFullYear(),m:b.getUTCMonth()+1,d:b.getUTCDate()}; }
+  pad(n){ return (n<10?"0":"")+n; }
+  weekIdOf(date){ var w=this.weekStartParts(date); return "w"+w.y+"-"+this.pad(w.m)+"-"+this.pad(w.d); }
+  weekIdToParts(id){ var s=id.slice(1).split("-"); return {y:+s[0],m:+s[1],d:+s[2]}; }
+  lockTimeOf(id){ var w=this.weekIdToParts(id); var d=new Date(Date.UTC(w.y,w.m-1,w.d)+864e5); return this.wallClock(d.getUTCFullYear(),d.getUTCMonth()+1,d.getUTCDate(),12,0); }
+  fmtRange(id){ var w=this.weekIdToParts(id); var a=new Date(Date.UTC(w.y,w.m-1,w.d)); var b=new Date(a.getTime()+4*864e5);
+    return a.getUTCDate()+"."+(a.getUTCMonth()+1)+"–"+b.getUTCDate()+"."+(b.getUTCMonth()+1); }
+  defaultLockFor(id){ var w=this.weekIdToParts(id); var th=new Date(Date.UTC(w.y,w.m-1,w.d)+4*864e5);
+    var thu=this.wallClock(th.getUTCFullYear(),th.getUTCMonth()+1,th.getUTCDate(),12,0).getTime();
+    return Math.min(Math.max(this.lockTimeOf(id).getTime(), Date.now()+864e5), thu); }
+  hashStr(s){ var h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return h; }
+  rollMarkets(id){ var ids=this.FIXED.map(function(m){return m.id;}); var st=this.hashStr(id)%this.ROTATING.length;
+    for(var k=0;k<3;k++) ids.push(this.ROTATING[(st+k)%this.ROTATING.length].id); return ids; }
+
+  /* ---------- data helpers ---------- */
+  grant(){ var g=+this.props.weeklyGrant; return g>0?g:1000; }
+  tt(){ return this.T[this.state.lang==="en"?"en":"he"]; }
+  nf(n){ return Math.round(n).toLocaleString("en-US"); }
+  signed(n){ n=Math.round(n); return (n>0?"+":"")+n.toLocaleString("en-US"); }
+  initialsOf(name){ var s=(name||"").trim(); if(!s) return "?";
+    var p=s.split(/\s+/); return (p.length>1? p[0][0]+p[1][0] : s.slice(0,2)).toUpperCase(); }
+  week(id){ return this.state.weeks[id]||null; }
+  customOf(id){ var w=this.week(id); return (w&&w.custom)||[]; }
+  allMarkets(id){
+    var all={}; this.FIXED.concat(this.ROTATING).forEach(function(m){ all[m.id]=m; });
+    this.customOf(id).forEach(function(m){ all[m.id]=m; });
+    return all;
+  }
+  marketIdsFor(id){ var w=this.week(id); var base=(w&&w.marketIds&&w.marketIds.length)?w.marketIds:this.rollMarkets(id);
+    var cs=this.customOf(id).map(function(m){return m.id;});
+    return base.concat(cs.filter(function(c){return base.indexOf(c)<0;})); }
+  mTitle(m){ return this.state.lang==="en" ? (m.en||m.he) : (m.he||m.en); }
+  mSub(m){ return this.state.lang==="en" ? (m.enSub||m.heSub||"") : (m.heSub||m.enSub||""); }
+  oLabel(o){ return this.state.lang==="en" ? (o.en||o.he) : (o.he||o.en); }
+  lockMs(id){ var w=this.week(id); if(w&&typeof w.lockAtMs==="number") return w.lockAtMs; return this.lockTimeOf(id).getTime(); }
+  isLocked(id){ return this.state.now >= this.lockMs(id) || this.isSettled(id); }
+  isSettled(id){ var w=this.week(id); if(!w||!w.results) return false;
+    for(var k in w.results){ if(w.results[k]) return true; } return false; }
+  winnersOf(id,mid){ var w=this.week(id); if(!w||!w.results) return null; var r=w.results[mid];
+    if(r===undefined||r===null||r==="") return null; var a=Array.isArray(r)?r:[r]; return a.length?a:null; }
+  optOf(id,mid,oid){ var m=this.allMarkets(id)[mid]; if(!m) return null;
+    return m.options.filter(function(o){return o.id===oid;})[0]||null; }
+  oddsOf(id,mid,oid){ var o=this.optOf(id,mid,oid); return o?o.odds:0; }
+  labelOf(id,mid,oid){ var o=this.optOf(id,mid,oid); return o?this.oLabel(o):oid; }
+  picksOf(b){ if(b&&b.picks&&b.picks.length) return b.picks; return b&&b.optionId?[b.optionId]:[]; }
+  betOf(id,pid,mid){ return this.state.bets[id+"__"+pid+"__"+mid]||null; }
+  myBet(mid){ return this.state.pid? this.betOf(this.CUR,this.state.pid,mid) : null; }
+  stakedBy(id,pid){ var s=0,b=this.state.bets; for(var k in b){ if(b[k].weekId===id&&b[k].pid===pid) s+=(+b[k].amount||0); } return s; }
+  payoutOf(id,b,winners){ var picks=this.picksOf(b); if(!picks.length||!winners) return 0;
+    var share=(+b.amount||0)/picks.length, pay=0, self=this;
+    picks.forEach(function(p){ if(winners.indexOf(p)>=0) pay+=share*self.oddsOf(id,b.marketId,p); });
+    return pay; }
+  netFor(id,pid){ var net=0,b=this.state.bets;
+    for(var k in b){ var x=b[k]; if(x.weekId!==id||x.pid!==pid) continue;
+      var w=this.winnersOf(id,x.marketId); if(!w) continue;
+      net -= (+x.amount||0); net += this.payoutOf(id,x,w); }
+    return net; }
+  hitsFor(pid){ var hit=0,tot=0,b=this.state.bets;
+    for(var k in b){ var x=b[k]; if(x.pid!==pid) continue; var w=this.winnersOf(x.weekId,x.marketId); if(!w) continue;
+      tot++; if(this.payoutOf(x.weekId,x,w)>0) hit++; }
+    return {hit:hit,tot:tot}; }
+  allPids(){ var ids=Object.keys(this.state.players), b=this.state.bets;
+    for(var k in b){ if(ids.indexOf(b[k].pid)<0) ids.push(b[k].pid); } return ids; }
+  nameOf(pid){ var p=this.state.players[pid]; return p?p.name:(this.state.lang==="en"?"Player":"שחקן"); }
+  seasonTable(){
+    var self=this, rows=[];
+    this.allPids().forEach(function(pid){
+      var total=0, rounds=0;
+      for(var wid in self.state.weeks){ if(self.isSettled(wid)){ var n=self.netFor(wid,pid); total+=n; if(self.stakedBy(wid,pid)>0) rounds++; } }
+      rows.push({pid:pid,name:self.nameOf(pid),total:total,rounds:rounds});
+    });
+    rows.sort(function(a,b){ return b.total-a.total || a.name.localeCompare(b.name); });
+    return rows;
+  }
+
+  /* ---------- lifecycle ---------- */
+  componentDidMount(){
+    var self=this;
+    this._tick = setInterval(function(){
+      var cur=self.weekIdOf(new Date());
+      if(cur!==self.CUR){ self.CUR=cur; }
+      self.setState({now:Date.now()});
+    },20000);
+    this.boot();
+  }
+  componentWillUnmount(){ clearInterval(this._tick); if(this._unsub) this._unsub.forEach(function(f){ try{f();}catch(e){} }); }
+
+  localDB(){
+    var KEY="dirks2.localdb", listeners=[];
+    function read(){ try{ return JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ return {}; } }
+    function fire(){ listeners.slice().forEach(function(f){ try{f();}catch(e){} }); }
+    function write(o){ try{ localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} fire(); }
+    try{ window.addEventListener("storage",function(e){ if(e.key===KEY) fire(); }); }catch(e){}
+    function snapDoc(path){ var d=read()[path];
+      return {id:path.split("/").pop(),exists:!!d,data:function(){return d;}}; }
+    function docRef(path){ return {
+      get:function(){ return Promise.resolve(snapDoc(path)); },
+      set:function(d){ var a=read(); a[path]=d; write(a); return Promise.resolve(); },
+      update:function(d){ var a=read(); a[path]=Object.assign({},a[path]||{},d); write(a); return Promise.resolve(); },
+      "delete":function(){ var a=read(); delete a[path]; write(a); return Promise.resolve(); },
+      onSnapshot:function(n){ var f=function(){ n(snapDoc(path)); }; listeners.push(f); f(); return function(){ listeners=listeners.filter(function(x){return x!==f;}); }; }
+    }; }
+    function collRef(path){
+      function snap(){ var a=read(), docs=[];
+        Object.keys(a).sort().forEach(function(p){ if(p.indexOf(path+"/")===0 && p.slice(path.length+1).indexOf("/")<0) docs.push(snapDoc(p)); });
+        return {docs:docs,size:docs.length,empty:!docs.length}; }
+      return {doc:function(id){return docRef(path+"/"+id);},get:function(){return Promise.resolve(snap());},
+        onSnapshot:function(n){ var f=function(){ n(snap()); }; listeners.push(f); f(); return function(){ listeners=listeners.filter(function(x){return x!==f;}); }; }};
+    }
+    return {doc:docRef,collection:collRef,local:true};
+  }
+
+  async boot(){
+    var db=null;
+    try{ db = await window.claude.use("db"); }catch(e){ db=null; }
+    if(!db){ db=this.localDB(); this.setState({offline:true}); }
+    this.db=db;
+    try{
+      var snap = await db.doc("weeks/"+this.CUR).get();
+      if(!snap.exists || !snap.data() || !snap.data().marketIds){
+        await db.doc("weeks/"+this.CUR).set({weekId:this.CUR,marketIds:this.rollMarkets(this.CUR),results:{},custom:[],
+          lockAtMs:this.defaultLockFor(this.CUR),createdAt:Date.now()});
+      }
+    }catch(e){}
+    var self=this;
+    this._unsub=[];
+    this._unsub.push(db.collection("weeks").onSnapshot(function(qs){
+      var w={}; qs.docs.forEach(function(d){ w[d.id]=d.data(); }); self.setState({weeks:w});
+    },function(){}));
+    this._unsub.push(db.collection("bets").onSnapshot(function(qs){
+      var b={}; qs.docs.forEach(function(d){ b[d.id]=d.data(); }); self.setState({bets:b});
+    },function(){}));
+    this._unsub.push(db.collection("players").onSnapshot(function(qs){
+      var p={}; qs.docs.forEach(function(d){ p[d.id]=d.data(); }); self.setState({players:p,ready:true},function(){ self.restoreSession(); });
+    },function(){}));
+  }
+  restoreSession(){
+    if(this.state.pid) return;
+    var pid=null; try{ pid=localStorage.getItem("dirks2.session"); }catch(e){}
+    if(pid && this.state.players[pid]) this.setState({pid:pid});
+  }
+  toast(msg){ var self=this; this.setState({toast:msg});
+    clearTimeout(this._tst); this._tst=setTimeout(function(){ self.setState({toast:""}); },2400); }
+
+  /* ---------- actions ---------- */
+  login(){
+    var t=this.tt(), name=this.state.loginName.trim(), pin=this.state.loginPin.trim();
+    if(name.length<2){ this.setState({loginErr:t.nameTooShort}); return; }
+    if(!/^\d{4}$/.test(pin)){ this.setState({loginErr:t.pinBad}); return; }
+    var players=this.state.players, found=null;
+    for(var k in players){ if((players[k].name||"").trim().toLowerCase()===name.toLowerCase()) found=players[k]; }
+    if(found){
+      if(found.pin && found.pin!==pin){ this.setState({loginErr:t.pinWrong}); return; }
+      if(!found.pin && this.db) this.db.doc("players/"+found.pid).update({pin:pin}).catch(function(){});
+      try{ localStorage.setItem("dirks2.session",found.pid); }catch(e){}
+      this.setState({pid:found.pid,loginErr:"",loginPin:""});
+      return;
+    }
+    var s="abcdefghijkmnpqrstuvwxyz23456789", pid="p_";
+    for(var i=0;i<9;i++) pid+=s[Math.floor(Math.random()*s.length)];
+    var doc={pid:pid,name:name,pin:pin,joined:Date.now()};
+    if(this.db) this.db.doc("players/"+pid).set(doc).catch(function(){});
+    var np=Object.assign({},this.state.players); np[pid]=doc;
+    try{ localStorage.setItem("dirks2.session",pid); }catch(e){}
+    this.setState({players:np,pid:pid,loginErr:"",loginPin:""});
+  }
+  logout(){ try{ localStorage.removeItem("dirks2.session"); }catch(e){}
+    this.setState({pid:null,tab:"bet",adminOk:false,sel:{},loginPin:""}); }
+
+  pick(mid,oid){
+    var all=this.allMarkets(this.CUR), m=all[mid]; if(!m) return;
+    var cur = this.state.sel[mid] || this.picksOf(this.myBet(mid)) || [];
+    var next;
+    if(m.multi){
+      var opt=this.optOf(this.CUR,mid,oid);
+      if(opt&&opt.excl){ next = cur.indexOf(oid)>=0 ? [] : [oid]; }
+      else {
+        var self=this;
+        next = cur.filter(function(x){ var o=self.optOf(self.CUR,mid,x); return !(o&&o.excl); });
+        var i=next.indexOf(oid);
+        if(i>=0) next.splice(i,1); else next.push(oid);
+      }
+    } else { next = cur.length===1&&cur[0]===oid ? [] : [oid]; }
+    var sel=Object.assign({},this.state.sel); sel[mid]=next; this.setState({sel:sel});
+  }
+  setAmt(mid,v){ var a=Object.assign({},this.state.amt); a[mid]=v; this.setState({amt:a}); }
+  amtFor(mid){
+    if(this.state.amt[mid]!==undefined) return this.state.amt[mid];
+    var b=this.myBet(mid); return b? String(b.amount) : "100";
+  }
+  place(mid){
+    var t=this.tt();
+    if(this.isLocked(this.CUR)){ this.toast(t.locked); return; }
+    var existing=this.myBet(mid);
+    var sel=this.state.sel[mid] || (existing? this.picksOf(existing):[]);
+    if(!sel||!sel.length){ this.toast(t.needPick); return; }
+    var amt=Math.round(+this.amtFor(mid)||0);
+    if(!(amt>0)){ this.toast(t.badAmount); return; }
+    var other=this.stakedBy(this.CUR,this.state.pid)-(existing?(+existing.amount||0):0);
+    if(other+amt>this.grant()){ this.toast(t.noFunds+this.nf(this.grant()-other)); return; }
+    var key=this.CUR+"__"+this.state.pid+"__"+mid;
+    var doc={weekId:this.CUR,pid:this.state.pid,name:this.nameOf(this.state.pid),marketId:mid,picks:sel,optionId:sel[0],amount:amt,ts:Date.now()};
+    var b=Object.assign({},this.state.bets); b[key]=doc; this.setState({bets:b});
+    if(this.db) this.db.doc("bets/"+key).set(doc).catch(function(){});
+    this.toast(t.placed);
+  }
+  clearBet(mid){
+    var key=this.CUR+"__"+this.state.pid+"__"+mid;
+    var b=Object.assign({},this.state.bets); delete b[key];
+    var sel=Object.assign({},this.state.sel); delete sel[mid];
+    var amt=Object.assign({},this.state.amt); delete amt[mid];
+    this.setState({bets:b,sel:sel,amt:amt});
+    if(this.db) this.db.doc("bets/"+key).delete().catch(function(){});
+    this.toast(this.tt().cleared);
+  }
+  saveWeek(patch,msg){
+    var w=this.state.weeks[this.CUR]||{};
+    var body={weekId:this.CUR,marketIds:patch.marketIds||w.marketIds||this.rollMarkets(this.CUR),
+      results:patch.results||w.results||{},custom:patch.custom||w.custom||[],
+      note:patch.note!==undefined?patch.note:(w.note||""),
+      lockAtMs:(typeof patch.lockAtMs==="number")?patch.lockAtMs:(typeof w.lockAtMs==="number"?w.lockAtMs:this.lockTimeOf(this.CUR).getTime()),
+      updatedAt:Date.now()};
+    var ws=Object.assign({},this.state.weeks); ws[this.CUR]=body; this.setState({weeks:ws});
+    if(this.db) this.db.doc("weeks/"+this.CUR).set(body).catch(function(){});
+    if(msg) this.toast(msg);
+  }
+  setResult(mid,oid){
+    var w=this.state.weeks[this.CUR]||{}, r=Object.assign({},w.results||{});
+    var m=this.allMarkets(this.CUR)[mid];
+    if(!oid){ delete r[mid]; this.saveWeek({results:r},this.tt().saved); return; }
+    if(m&&m.multi){
+      var cur=(this.winnersOf(this.CUR,mid)||[]).slice();
+      var opt=this.optOf(this.CUR,mid,oid), i=cur.indexOf(oid), self=this;
+      if(i>=0) cur.splice(i,1);
+      else if(opt&&opt.excl) cur=[oid];
+      else { cur=cur.filter(function(x){ var o=self.optOf(self.CUR,mid,x); return !(o&&o.excl); }); cur.push(oid); }
+      if(cur.length) r[mid]=cur; else delete r[mid];
+    } else { r[mid]=oid; }
+    this.saveWeek({results:r},this.tt().saved);
+  }
+  toggleLock(){ var open=this.state.now<this.lockMs(this.CUR);
+    this.saveWeek({lockAtMs: open? Date.now() : (Date.now()+3*864e5)}, this.tt().saved); }
+  addMarket(){
+    var title=this.state.newTitle.trim();
+    var lines=this.state.newOpts.split("\n").map(function(l){return l.trim();}).filter(Boolean);
+    if(title.length<2||lines.length<2){ this.toast(this.tt().addMarketHint); return; }
+    var opts=lines.map(function(l,i){
+      var p=l.split("|"); var od=parseFloat((p[1]||"2").replace(",","."));
+      return {id:"o"+i,he:(p[0]||"").trim(),en:(p[0]||"").trim(),odds:(od>1?od:2)};
+    });
+    var id="c_"+Date.now().toString(36);
+    var m={id:id,ico:this.state.newIco||"🎲",he:title,en:title,heSub:"",enSub:"",custom:true,options:opts};
+    var custom=(this.customOf(this.CUR)||[]).concat([m]);
+    this.setState({newTitle:"",newOpts:""});
+    this.saveWeek({custom:custom},this.tt().saved);
+  }
+  publishAnn(){ this.saveWeek({note:this.state.annDraft.trim()},this.tt().saved); }
+  clearAnn(){ this.setState({annDraft:""}); this.saveWeek({note:""},this.tt().saved); }
+  resetPin(pid){ if(this.db) this.db.doc("players/"+pid).update({pin:""}).catch(function(){});
+    var p=Object.assign({},this.state.players);
+    if(p[pid]){ p[pid]=Object.assign({},p[pid],{pin:""}); }
+    this.setState({players:p}); this.toast(this.tt().saved); }
+  removePlayer(pid){ if(this.db) this.db.doc("players/"+pid).delete().catch(function(){});
+    var p=Object.assign({},this.state.players); delete p[pid]; this.setState({players:p}); this.toast(this.tt().saved); }
+
+  /* ---------- derived view data ---------- */
+  shares(mid){
+    var by={},total=0,b=this.state.bets,self=this;
+    for(var k in b){ var x=b[k]; if(x.weekId!==this.CUR||x.marketId!==mid) continue;
+      var picks=self.picksOf(x), amt=+x.amount||0; if(!picks.length) continue;
+      picks.forEach(function(p){ by[p]=(by[p]||0)+amt/picks.length; }); total+=amt; }
+    return {by:by,total:total};
+  }
+
+  renderVals(){
+    var self=this, t=this.tt(), S=this.state, lang=S.lang;
+    var dir = lang==="en" ? "ltr" : "rtl";
+    var signedIn = !!(S.pid && S.players[S.pid]);
+    var grant=this.grant();
+    var locked=this.isLocked(this.CUR), settled=this.isSettled(this.CUR);
+    var lockMs=this.lockMs(this.CUR);
+
+    /* countdown */
+    var cd="—";
+    if(settled) cd = lang==="en"?"closed":"נסגר";
+    else if(S.now<lockMs){
+      var ms=lockMs-S.now, h=Math.floor(ms/36e5), mi=Math.floor(ms%36e5/6e4);
+      cd = h>=24 ? Math.floor(h/24)+(lang==="en"?"d ":"י ")+(h%24)+(lang==="en"?"h":"ש") : h+":"+this.pad(mi);
+    } else cd = lang==="en"?"locked":"נעול";
+
+    var statusText = settled? t.settled : (S.now<lockMs? t.open : t.locked);
+    var statusBg = settled? "rgba(123,93,181,.22)" : (S.now<lockMs? "rgba(26,140,91,.22)" : "rgba(255,255,255,.12)");
+    var statusFg = settled? "#ddd2f2" : (S.now<lockMs? "#b6ecd1" : "rgba(255,255,255,.8)");
+    var statusPillStyle = "display:inline-flex;align-items:center;gap:6px;background:"+statusBg+";color:"+statusFg+";border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700";
+
+    /* tabs */
+    var tabDefs=[["bet",t.tabBet],["dash",t.tabDash],["season",t.tabSeason],["admin",t.tabAdmin]];
+    var myStaked = signedIn? this.stakedBy(this.CUR,S.pid) : 0;
+    var ids=this.marketIdsFor(this.CUR), all=this.allMarkets(this.CUR);
+    var myBetCount=0; ids.forEach(function(mid){ if(self.myBet(mid)) myBetCount++; });
+    var tabs=tabDefs.map(function(d){
+      var active=S.tab===d[0];
+      return {label:d[1],
+        onClick:function(){ self.setState({tab:d[0]}); },
+        style:"display:flex;align-items:center;gap:7px;border:0;background:"+(active?"#f7f8fc":"transparent")+";color:"+(active?"#1B2C9B":"rgba(255,255,255,.72)")+
+          ";font-size:13.5px;font-weight:"+(active?"800":"600")+";padding:11px 16px;border-radius:9px 9px 0 0;white-space:nowrap",
+        badge: d[0]==="bet" && signedIn ? (myBetCount+"/"+ids.length) : "",
+        badgeStyle:"font-family:'Inter',monospace;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:"+(active?"#1B2C9B":"rgba(255,255,255,.18)")+";color:#fff"};
+    });
+
+    /* budget */
+    var left=Math.max(0,grant-myStaked);
+    var budgetSub = !signedIn ? "" : (myStaked===0 ? (lang==="en"?"Nothing staked yet. Unstaked dirks evaporate at lock.":"טרם הימרת. מה שלא יונח — מתפרק בנעילה.")
+      : (lang==="en"? ("Staked "+this.nf(myStaked)+" of "+this.nf(grant)) : ("הנחת "+this.nf(myStaked)+" מתוך "+this.nf(grant))));
+    var maxPay=0;
+    ids.forEach(function(mid){ var b=self.myBet(mid); if(!b) return;
+      var picks=self.picksOf(b), share=(+b.amount||0)/Math.max(1,picks.length), best=0;
+      picks.forEach(function(p){ best=Math.max(best,share*self.oddsOf(self.CUR,mid,p)); });
+      maxPay += best; });
+
+    var showSent = this.props.showSentimentToAll !== false || locked;
+
+    /* market cards */
+    var markets = ids.map(function(mid){
+      var m=all[mid]; if(!m) return null;
+      var isFixed=self.FIXED.some(function(f){return f.id===mid;});
+      var kind = m.custom? t.custom : (isFixed? t.fixed : t.rotating);
+      var kindColor = m.custom? "#7B5DB5" : (isFixed? "#1B2C9B" : "#5a6282");
+      var kindBg = m.custom? "#f0ebf8" : (isFixed? "#e8ebf9" : "#eef0f6");
+      var mine=self.myBet(mid), wins=self.winnersOf(self.CUR,mid);
+      var sel = S.sel[mid] || (mine? self.picksOf(mine) : []);
+      var sh=self.shares(mid);
+      var canBet = signedIn && !locked && !wins;
+      var amount=self.amtFor(mid);
+
+      var options = m.options.map(function(o){
+        var picked = sel.indexOf(o.id)>=0;
+        var won = wins && wins.indexOf(o.id)>=0;
+        var lost = wins && !won;
+        var bg = won? "#e3f5ed" : (picked? "#f0ebf8" : "#ffffff");
+        var bc = won? "#1a8c5b" : (picked? "#7B5DB5" : "#dde0ec");
+        var pct = sh.total? Math.round((sh.by[o.id]||0)/sh.total*100) : 0;
+        return {
+          label:self.oLabel(o),
+          labelStyle:"flex:1;min-width:0;font-size:13.5px;font-weight:"+(picked||won?"700":"500")+";color:"+(won?"#12percent":"#2c3356")+";text-align:start;text-wrap:pretty",
+          style:"display:flex;align-items:center;gap:10px;width:100%;text-align:start;background:"+bg+";border:1px solid "+bc+
+            ";border-radius:9px;padding:10px 12px;font-family:inherit;opacity:"+(lost?".5":"1")+";box-shadow:"+(picked||won?"inset 0 0 0 1px "+bc:"none")+
+            ";cursor:"+(canBet?"pointer":"default"),
+          disabled: !canBet,
+          onPick:function(){ if(canBet) self.pick(mid,o.id); },
+          showShare: showSent && sh.total>0,
+          shareStyle:"display:block;height:100%;width:"+pct+"%;background:"+(picked?"#7B5DB5":"#9299b8"),
+          pctText: sh.total? pct+"%" : "",
+          oddsText:"×"+o.odds.toFixed(1),
+          oddsStyle:"font-family:'Inter',monospace;font-size:13px;font-weight:700;color:"+(won?"#1a8c5b":"#1B2C9B")+";min-width:38px;text-align:end"
+        };
+      });
+      options.forEach(function(o){ o.labelStyle=o.labelStyle.replace("#12percent","#0f6e48"); });
+
+      /* stake row text */
+      var pickLine = m.multi
+        ? (sel.length>1 ? (sel.length+t.splitAcross+self.nf((+amount||0)/sel.length)+" "+t.dk) : t.pickMulti)
+        : (sel.length? self.labelOf(self.CUR,mid,sel[0]) : t.pickOne);
+      var potential=0;
+      if(sel.length){ var share=(+amount||0)/sel.length;
+        sel.forEach(function(p){ potential = Math.max(potential, share*self.oddsOf(self.CUR,mid,p)); }); }
+      var payoutLine = sel.length? (t.potential+" "+self.nf(potential)+" "+t.dk) : "";
+
+      var statusLine="", myLine="", statusLineStyle="";
+      if(wins){
+        var labels=wins.map(function(x){ return self.labelOf(self.CUR,mid,x); }).join(" · ");
+        statusLine = t.result+": "+labels;
+        if(mine){ var pay=self.payoutOf(self.CUR,mine,wins);
+          myLine = pay>0? (t.won+self.nf(pay)+" "+t.dk) : (t.lost+" "+self.nf(mine.amount)+" "+t.dk); }
+        else myLine = t.noBetHere;
+        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #dde0ec;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font-size:13px;color:#5a6282";
+      } else if(locked){
+        statusLine = t.lockedWait;
+        if(mine) myLine = t.yourBet+": "+self.nf(mine.amount)+" "+t.dk+" · "+self.picksOf(mine).map(function(p){return self.labelOf(self.CUR,mid,p);}).join(" · ");
+        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #dde0ec;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font-size:13px;color:#9299b8";
+      } else if(!signedIn){
+        statusLine = t.loginHelp;
+        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #dde0ec;font-size:13px;color:#9299b8";
+      }
+
+      return {
+        ico:m.ico, title:self.mTitle(m), sub:self.mSub(m),
+        cardStyle:"background:#ffffff;border:1px solid "+(mine?"#c9bde6":"#dde0ec")+";border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden;padding-bottom:"+(canBet||statusLine?"0":"15px"),
+        kindLabel:kind,
+        kindStyle:"background:"+kindBg+";color:"+kindColor+";font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;border-radius:999px;white-space:nowrap;flex:none",
+        options:options,
+        canBet:canBet, hasBet:!!mine,
+        amount:amount,
+        onAmount:function(e){ self.setAmt(mid,e.target.value); },
+        chips:[50,100,250].map(function(v){ return {label:String(v),
+          onClick:function(){ self.setAmt(mid,String(Math.min(grant,(+self.amtFor(mid)||0)+v))); }}; }),
+        onPlace:function(){ self.place(mid); },
+        onClear:function(){ self.clearBet(mid); },
+        placeDisabled: !sel.length,
+        placeLabel: mine? t.update : t.place,
+        placeStyle:"height:38px;padding:0 16px;border:0;border-radius:8px;background:"+(sel.length?"#1B2C9B":"#dde0ec")+";color:"+(sel.length?"#ffffff":"#9299b8")+";font-size:13.5px;font-weight:700",
+        pickLine:pickLine,
+        payoutLine:payoutLine,
+        payoutLineStyle:"font-family:'Inter',monospace;font-size:12.5px;font-weight:700;color:#1a8c5b",
+        statusLine:statusLine, myLine:myLine, statusLineStyle:statusLineStyle
+      };
+    }).filter(Boolean);
+
+    /* dashboard */
+    var roundBets=[]; for(var k in S.bets){ if(S.bets[k].weekId===self.CUR) roundBets.push(S.bets[k]); }
+    var totalPlay=roundBets.reduce(function(a,b){ return a+(+b.amount||0); },0);
+    var placedPids={}; roundBets.forEach(function(b){ placedPids[b.pid]=(placedPids[b.pid]||0)+(+b.amount||0); });
+    var pidList=this.allPids();
+    var bigWin={name:"—",v:0}, bigLoss={name:"—",v:0};
+    if(settled){
+      pidList.forEach(function(pid){ var n=self.netFor(self.CUR,pid);
+        if(n>bigWin.v) bigWin={name:self.nameOf(pid),v:n};
+        if(n<bigLoss.v) bigLoss={name:self.nameOf(pid),v:n}; });
+    }
+    var stats=[
+      {label:t.totalInPlay,value:this.nf(totalPlay)+" "+t.dk,sub:this.fmtRange(this.CUR),color:"#1B2C9B"},
+      {label:t.players,value:Object.keys(placedPids).length+"/"+pidList.length,sub:settled?t.settled:(locked?t.locked:t.open),color:"#7B5DB5"},
+      {label:t.biggestWin,value:settled?this.signed(bigWin.v):"—",sub:settled?bigWin.name:(lang==="en"?"after results":"אחרי התוצאות"),color:"#1a8c5b"},
+      {label:t.biggestLoss,value:settled?this.signed(bigLoss.v):"—",sub:settled?bigLoss.name:(lang==="en"?"after results":"אחרי התוצאות"),color:"#c0392b"}
+    ].map(function(s){
+      return {label:s.label,value:s.value,sub:s.sub,
+        dotStyle:"width:9px;height:9px;border-radius:50%;background:"+s.color+";display:block;flex:none",
+        valueStyle:"font-family:'Inter',monospace;font-size:26px;font-weight:700;line-height:1.15;margin-top:7px;color:"+s.color+";font-variant-numeric:tabular-nums"};
+    });
+
+    var season=this.seasonTable();
+    var leaders=season.slice(0,8).map(function(r,i){
+      var me=r.pid===S.pid;
+      return {rank:i+1,name:r.name,initials:self.initialsOf(r.name),
+        meta:r.rounds+(lang==="en"?"r":" מח׳"),
+        net:self.signed(r.total),
+        rowStyle:"display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:"+(me?"#f0ebf8":"transparent"),
+        avatarStyle:"width:26px;height:26px;border-radius:50%;background:"+(me?"#7B5DB5":"#eef0f6")+";color:"+(me?"#ffffff":"#5a6282")+";display:grid;place-items:center;font-size:10.5px;font-weight:700;flex:none",
+        netStyle:"font-family:'Inter',monospace;font-size:13.5px;font-weight:700;min-width:58px;text-align:end;color:"+(r.total>0?"#1a8c5b":(r.total<0?"#c0392b":"#5a6282"))};
+    });
+
+    var placedList=Object.keys(placedPids).map(function(pid){
+      return {name:self.nameOf(pid)+" ",amount:self.nf(placedPids[pid]),
+        style:"display:inline-flex;align-items:center;gap:6px;background:#e3f5ed;color:#0f6e48;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600"};
+    });
+    var missingList=pidList.filter(function(pid){ return !placedPids[pid]; }).map(function(pid){
+      return {name:self.nameOf(pid),
+        style:"display:inline-flex;background:#fef3dc;color:#7a5307;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600"};
+    });
+
+    var sentiment = ids.map(function(mid){
+      var m=all[mid]; if(!m) return null;
+      var sh=self.shares(mid);
+      var rows=m.options.map(function(o){
+        var amt=sh.by[o.id]||0, pct=sh.total? Math.round(amt/sh.total*100):0;
+        var wins=self.winnersOf(self.CUR,mid), won=wins&&wins.indexOf(o.id)>=0;
+        return {label:self.oLabel(o),value:self.nf(amt),
+          barStyle:"height:100%;width:"+pct+"%;background:"+(won?"#1a8c5b":"#1B2C9B")+";border-radius:4px"};
+      }).sort(function(a,b){ return (+b.value.replace(/,/g,""))-(+a.value.replace(/,/g,"")); });
+      return {ico:m.ico,title:self.mTitle(m),total:self.nf(sh.total)+" "+t.dk,rows:rows};
+    }).filter(Boolean);
+
+    /* season screen */
+    var seasonRows=season.map(function(r){
+      var h=self.hitsFor(r.pid);
+      var me=r.pid===S.pid;
+      return {name:r.name,initials:self.initialsOf(r.name),rounds:String(r.rounds),
+        hit: h.tot? Math.round(h.hit/h.tot*100)+"%" : "—",
+        net:self.signed(r.total),
+        trStyle:"background:"+(me?"#f7f5fc":"transparent"),
+        avatarStyle:"width:26px;height:26px;border-radius:50%;background:"+(me?"#7B5DB5":"#eef0f6")+";color:"+(me?"#ffffff":"#5a6282")+";display:grid;place-items:center;font-size:10.5px;font-weight:700;flex:none",
+        netTdStyle:"padding:10px 14px;border-bottom:1px solid #eef0f6;text-align:end;font-family:'Inter',monospace;font-weight:700;font-variant-numeric:tabular-nums;color:"+(r.total>0?"#1a8c5b":(r.total<0?"#c0392b":"#5a6282"))};
+    });
+
+    var settledIds=Object.keys(S.weeks).filter(function(w){ return self.isSettled(w); }).sort().reverse();
+    var headStyle="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec;white-space:nowrap";
+    var archHead=[{label:t.round,style:headStyle}].concat(season.map(function(r){ return {label:r.name,style:headStyle}; }));
+    var archRows=settledIds.map(function(wid){
+      var cells=[{value:self.fmtRange(wid),style:"padding:9px 14px;border-bottom:1px solid #eef0f6;font-family:'Inter',monospace;font-weight:600;color:#2c3356;white-space:nowrap"}];
+      season.forEach(function(r){ var n=self.netFor(wid,r.pid);
+        cells.push({value:self.signed(n),
+          style:"padding:9px 14px;border-bottom:1px solid #eef0f6;font-family:'Inter',monospace;font-variant-numeric:tabular-nums;color:"+(n>0?"#1a8c5b":(n<0?"#c0392b":"#9299b8"))}); });
+      return {cells:cells};
+    });
+
+    /* admin */
+    var adminMarkets = ids.map(function(mid){
+      var m=all[mid]; if(!m) return null;
+      var wins=self.winnersOf(self.CUR,mid)||[];
+      return {ico:m.ico,title:self.mTitle(m),
+        stateLabel: wins.length? (lang==="en"?"settled":"נסגר") : (lang==="en"?"open":"פתוח"),
+        stateStyle:"font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:"+(wins.length?"#e3f5ed":"#eef0f6")+";color:"+(wins.length?"#0f6e48":"#5a6282"),
+        options:m.options.map(function(o){
+          var on=wins.indexOf(o.id)>=0;
+          return {label:self.oLabel(o),onClick:function(){ self.setResult(mid,o.id); },
+            style:"border:1px solid "+(on?"#1a8c5b":"#dde0ec")+";background:"+(on?"#1a8c5b":"#ffffff")+";color:"+(on?"#ffffff":"#2c3356")+
+              ";border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:"+(on?"700":"600")};
+        }),
+        onClearResult:function(){ self.setResult(mid,""); }};
+    }).filter(Boolean);
+
+    var roster=pidList.map(function(pid){
+      var p=S.players[pid]||{};
+      return {name:self.nameOf(pid),initials:self.initialsOf(self.nameOf(pid)),
+        meta:(p.pin? "•••• " : (lang==="en"?"no code ":"בלי קוד "))+self.nf(self.stakedBy(self.CUR,pid))+" "+t.dk,
+        avatarStyle:"width:28px;height:28px;border-radius:50%;background:#eef0f6;color:#5a6282;display:grid;place-items:center;font-size:11px;font-weight:700;flex:none",
+        onResetPin:function(){ self.resetPin(pid); },
+        onRemove:function(){ self.removePlayer(pid); }};
+    });
+
+    var known=false, nm=S.loginName.trim().toLowerCase();
+    for(var pk in S.players){ if((S.players[pk].name||"").trim().toLowerCase()===nm && nm) known=true; }
+
+    return {
+      t:t, dir:dir, signedIn:signedIn, needsLogin:!signedIn,
+      toast:S.toast, offline:S.offline,
+      langLabel: lang==="en" ? "עברית" : "EN",
+      toggleLang:function(){ self.setState({lang:lang==="en"?"he":"en"}); },
+      /* login */
+      loginName:S.loginName, loginPin:S.loginPin, loginErr:S.loginErr,
+      loginCta: known? t.signIn : t.createAccount,
+      playerCountLine: Object.keys(S.players).length + t.playersRegistered,
+      onLoginName:function(e){ self.setState({loginName:e.target.value,loginErr:""}); },
+      onLoginPin:function(e){ self.setState({loginPin:e.target.value.replace(/\D/g,"").slice(0,4),loginErr:""}); },
+      onLoginKey:function(e){ if(e.key==="Enter") self.login(); },
+      onLogin:function(){ self.login(); },
+      onLogout:function(){ self.logout(); },
+      /* header */
+      myName: signedIn? self.nameOf(S.pid) : "",
+      initials: signedIn? self.initialsOf(self.nameOf(S.pid)) : "",
+      roundLine: t.round+" "+this.fmtRange(this.CUR)+" · "+t.tagline,
+      statusText:statusText, statusPillStyle:statusPillStyle, countdown:cd,
+      tabs:tabs,
+      annText: (this.week(this.CUR)&&this.week(this.CUR).note)||"",
+      isBet:S.tab==="bet", isDash:S.tab==="dash", isSeason:S.tab==="season", isAdminTab:S.tab==="admin",
+      /* bet */
+      leftText:this.nf(left), grantText:"/ "+this.nf(grant)+" "+t.dk,
+      budgetBarStyle:"height:100%;width:"+(left/grant*100)+"%;background:#1B2C9B;border-radius:5px",
+      budgetSub:budgetSub,
+      myBetsLine: myBetCount+"/"+ids.length,
+      myMaxPayout: this.nf(maxPay),
+      markets:markets,
+      /* dashboard */
+      stats:stats, leaders:leaders, noLeaders:!leaders.length,
+      whoInCount: Object.keys(placedPids).length+"/"+pidList.length,
+      placedList:placedList, noPlaced:!placedList.length,
+      missingList:missingList, noMissing:!missingList.length,
+      sentiment:sentiment, sentimentSub: showSent? this.fmtRange(this.CUR) : (lang==="en"?"revealed at lock":"נחשף בנעילה"),
+      /* season */
+      seasonRows:seasonRows, noSeason:!seasonRows.length,
+      archHead:archHead, archRows:archRows, noArch:!archRows.length,
+      /* admin */
+      adminOk:S.adminOk, needsCode:!S.adminOk, code:S.code,
+      onCode:function(e){ self.setState({code:e.target.value}); },
+      onCodeKey:function(e){ if(e.key==="Enter"){ self.codeGo(); } },
+      onCodeGo:function(){ self.codeGo(); },
+      lockBtnLabel: (S.now<lockMs)? t.lockNow : t.unlock,
+      onToggleLock:function(){ self.toggleLock(); },
+      adminMarkets:adminMarkets,
+      newIco:S.newIco, newTitle:S.newTitle, newOpts:S.newOpts,
+      onNewIco:function(e){ self.setState({newIco:e.target.value}); },
+      onNewTitle:function(e){ self.setState({newTitle:e.target.value}); },
+      onNewOpts:function(e){ self.setState({newOpts:e.target.value}); },
+      onAddMarket:function(){ self.addMarket(); },
+      annDraft:S.annDraft,
+      onAnnDraft:function(e){ self.setState({annDraft:e.target.value}); },
+      onPublishAnn:function(){ self.publishAnn(); },
+      onClearAnn:function(){ self.clearAnn(); },
+      roster:roster
+    };
+  }
+
+  codeGo(){
+    if((this.state.code||"").trim().toLowerCase()===this.ADMIN_CODE) this.setState({adminOk:true,code:""});
+    else this.toast(this.tt().wrongCode);
+  }
+}
+</script>
+</body>
+</html>
