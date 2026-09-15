@@ -601,7 +601,7 @@ class Component extends DCLogic {
         rules:"חלון המסחר הוא יום ראשון בין 08:00 ל־10:00 — שעתיים, פעם בשבוע. בפתיחה כל משתתף מקבל את המנה השבועית; מה שלא הונח עד 10:00 מתפרק, בדיוק כמו כל דבר אחר פה. ההימורים תקפים לכל השבוע, התוצאות נכנסות ביום חמישי והזכיות נספרות לטבלת העונה. הימור אחד לכל שוק. הכול בצחוק, אף אחד לא באמת מפסיד כסף.",
         adminGate:"לוח הבקרה",adminGateSub:"נדרש קוד מנהל/ת.",code:"קוד",enter:"כניסה",wrongCode:"קוד שגוי.",
         setResults:"רישום תוצאות",setResultsSub:"סימון תוצאה סוגר את השוק ומחשב זכיות מיד לכולם.",lockNow:"נעל/י מסחר עכשיו",unlock:"פתח/י מסחר מחדש",clear:"נקה",
-        editMarkets:"עריכת שווקים",editMarketsSub:"אפשר לשנות שם, תיאור, אפשרויות ויחסים. שינוי יחס משפיע גם על הימורים שכבר הונחו.",
+        editMarkets:"עריכת שווקים",editMarketsSub:"אפשר לשנות שם, תיאור, אפשרויות ויחסים. הטקסט שתקליד/י מחליף את שתי השפות; שינוי יחס משפיע גם על הימורים שכבר הונחו.",
         edit:"ערוך",save:"שמור",revert:"החזר למקור",addOption:"הוסף אפשרות",optionLabel:"אפשרות",oddsLabel:"יחס",addToRound:"הוסף שוק מהמאגר",
         minTwo:"צריך שם ולפחות שתי אפשרויות.",marketSaved:"השוק עודכן.",marketReset:"השוק הוחזר למקור.",marketAdded:"השוק נוסף למחזור.",inRound:"במחזור",
         newMarket:"שוק חדש למחזור",removeMarket:"מחק שוק",confirmRemove:"למחוק? לחץ שוב",marketRemoved:"השוק נמחק וההימורים עליו בוטלו.",newMarketSub:"נוסף למחזור הנוכחי ומופיע לכולם.",marketTitle:"שם השוק",marketSub:"תיאור קצר (לא חובה)",optionsPlaceholder:"אפשרות | יחס\nלמשל:\nכן, יקרה | 2.5\nלא יקרה | 1.6",addMarket:"הוסף/י שוק",addMarketHint:"שורה לכל אפשרות",
@@ -624,7 +624,7 @@ class Component extends DCLogic {
         rules:"The trading window is Sunday, 08:00 to 10:00 — two hours, once a week. At open each player gets the weekly allowance; whatever is unstaked at 10:00 evaporates, like everything else around here. Bets stand for the whole week, results land on Thursday, and winnings count towards the season table. One bet per market. It's all a joke — nobody actually loses money.",
         adminGate:"Control room",adminGateSub:"Admin code required.",code:"Code",enter:"Enter",wrongCode:"Wrong code.",
         setResults:"Record results",setResultsSub:"Marking a result closes the market and pays out immediately for everyone.",lockNow:"Lock trading now",unlock:"Reopen trading",clear:"Clear",
-        editMarkets:"Edit markets",editMarketsSub:"Change the title, description, options and odds. Changing odds also affects bets already placed.",
+        editMarkets:"Edit markets",editMarketsSub:"Change the title, description, options and odds. Text you type replaces both languages; changing odds also affects bets already placed.",
         edit:"Edit",save:"Save",revert:"Reset to default",addOption:"Add option",optionLabel:"Option",oddsLabel:"Odds",addToRound:"Add a market from the catalogue",
         minTwo:"Needs a title and at least two options.",marketSaved:"Market updated.",marketReset:"Market reset to default.",marketAdded:"Market added to the round.",inRound:"in round",
         newMarket:"New market for this round",removeMarket:"Delete market",confirmRemove:"Delete? Tap again",marketRemoved:"Market deleted, its bets cancelled.",newMarketSub:"Added to the current round and visible to everyone.",marketTitle:"Market title",marketSub:"Short description (optional)",optionsPlaceholder:"option | odds\ne.g.\nYes, it happens | 2.5\nNo | 1.6",addMarket:"Add market",addMarketHint:"One line per option",
@@ -958,7 +958,7 @@ class Component extends DCLogic {
     Object.keys(bets).forEach(function(k){
       if(bets[k].weekId===self.CUR && bets[k].marketId===mid){ killed.push(k); delete bets[k]; }
     });
-    this.setState({bets:bets,delArm:""});
+    this.setState({bets:bets,delArm:"",edit:null});
     if(this.db) killed.forEach(function(k){ self.db.doc("bets/"+k).delete().catch(function(){}); });
     var ov=Object.assign({},w.overrides||{}); delete ov[mid];
     this.saveWeek({custom:custom,results:results,marketIds:ids,overrides:ov}, this.tt().marketRemoved);
