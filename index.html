@@ -417,12 +417,71 @@ input,textarea,select{font-family:inherit}
                     <button type="button" onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
                   </sc-for>
                   <button type="button" onClick="{{ m.onClearResult }}" style="border:1px solid #2e2b28;background:#1e1c1a;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:#948c82">{{ t.clear }}</button>
-                  <sc-if value="{{ m.isCustom }}" hint-placeholder-val="{{ false }}">
-                    <button type="button" onClick="{{ m.onDelete }}" style="{{ m.delStyle }}">{{ m.delLabel }}</button>
-                  </sc-if>
+
                 </div>
               </div>
             </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #242220">
+            <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.editMarkets }}</h2>
+            <div style="font-size:12.5px;color:#948c82;margin-top:2px;text-wrap:pretty">{{ t.editMarketsSub }}</div>
+          </div>
+          <div style="padding:4px 16px 16px">
+            <sc-for list="{{ editableMarkets }}" as="m" hint-placeholder-count="5">
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:11px 0;border-bottom:1px solid #242220">
+                <span style="font-size:16px">{{ m.ico }}</span>
+                <span style="font-size:13.5px;font-weight:700;color:#f2f0ec">{{ m.title }}</span>
+                <span style="font-family:'Space Mono',monospace;font-size:11.5px;color:#948c82">{{ m.meta }}</span>
+                <div style="flex:1"></div>
+                <sc-if value="{{ m.edited }}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{ m.onReset }}" style="border:1px solid #2e2b28;background:transparent;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:#e8b64c">{{ t.revert }}</button>
+                </sc-if>
+                <button type="button" onClick="{{ m.onEdit }}" style="border:1px solid #e8ff3a;background:transparent;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:700;color:#e8ff3a">{{ t.edit }}</button>
+                <button type="button" onClick="{{ m.onDelete }}" style="{{ m.delStyle }}">{{ m.delLabel }}</button>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{ editorOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:14px;border:1px solid #e8ff3a;background:#141312;padding:14px;display:flex;flex-direction:column;gap:9px">
+                <div style="display:flex;gap:8px">
+                  <input type="text" maxlength="2" value="{{ editor.ico }}" onInput="{{ editor.onIco }}" aria-label="icon" style="width:52px;height:40px;text-align:center;border:1px solid #2e2b28;border-radius:2px;background:#1e1c1a;color:#f2f0ec;font-size:18px">
+                  <input type="text" maxlength="70" value="{{ editor.title }}" onInput="{{ editor.onTitle }}" placeholder="{{ t.marketTitle }}" style="flex:1;height:40px;padding:0 11px;border:1px solid #2e2b28;border-radius:2px;background:#1e1c1a;color:#f2f0ec;font-size:14px;font-weight:700">
+                </div>
+                <input type="text" maxlength="120" value="{{ editor.sub }}" onInput="{{ editor.onSub }}" placeholder="{{ t.marketSub }}" style="height:38px;padding:0 11px;border:1px solid #2e2b28;border-radius:2px;background:#1e1c1a;color:#948c82;font-size:13px">
+                <div style="display:flex;gap:8px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#948c82;margin-top:4px">
+                  <span style="flex:1">{{ t.optionLabel }}</span>
+                  <span style="width:86px">{{ t.oddsLabel }}</span>
+                  <span style="width:34px"></span>
+                </div>
+                <sc-for list="{{ editor.rows }}" as="o" hint-placeholder-count="3">
+                  <div style="display:flex;gap:8px;align-items:center">
+                    <input type="text" maxlength="60" value="{{ o.label }}" onInput="{{ o.onLabel }}" style="flex:1;height:38px;padding:0 11px;border:1px solid #2e2b28;border-radius:2px;background:#1e1c1a;color:#f2f0ec;font-size:13.5px">
+                    <input type="number" min="1.1" max="100" step="0.1" value="{{ o.odds }}" onInput="{{ o.onOdds }}" style="width:86px;height:38px;padding:0 10px;border:1px solid #2e2b28;border-radius:2px;background:#1e1c1a;color:#e8ff3a;font-family:'Space Mono',monospace;font-size:14px;font-weight:700">
+                    <button type="button" onClick="{{ o.onRemove }}" aria-label="remove" style="width:34px;height:38px;border:1px solid #2e2b28;background:transparent;border-radius:2px;color:#ff6b4a;font-size:16px;font-weight:700">×</button>
+                  </div>
+                </sc-for>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:5px;align-items:center">
+                  <button type="button" onClick="{{ editor.onAddOpt }}" style="height:38px;padding:0 13px;border:1px dashed #2e2b28;background:transparent;border-radius:2px;font-size:13px;font-weight:600;color:#948c82">{{ t.addOption }}</button>
+                  <div style="flex:1"></div>
+                  <button type="button" onClick="{{ editor.onCancel }}" style="height:38px;padding:0 14px;border:1px solid #2e2b28;background:transparent;border-radius:2px;font-size:13px;font-weight:600;color:#968e84">{{ t.cancel }}</button>
+                  <button type="button" onClick="{{ editor.onSave }}" style="height:38px;padding:0 18px;border:0;border-radius:2px;background:#e8ff3a;color:#141312;font-size:13.5px;font-weight:700">{{ t.save }}</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ catalogue }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:16px;padding-top:13px;border-top:1px dashed #2e2b28">
+                <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#948c82;margin-bottom:8px">{{ t.addToRound }}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ catalogue }}" as="c" hint-placeholder-count="4">
+                    <button type="button" onClick="{{ c.onAdd }}" style="border:1px solid #2e2b28;background:transparent;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:#f2f0ec">{{ c.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
           </div>
         </div>
 
@@ -542,7 +601,10 @@ class Component extends DCLogic {
         rules:"חלון המסחר הוא יום ראשון בין 08:00 ל־10:00 — שעתיים, פעם בשבוע. בפתיחה כל משתתף מקבל את המנה השבועית; מה שלא הונח עד 10:00 מתפרק, בדיוק כמו כל דבר אחר פה. ההימורים תקפים לכל השבוע, התוצאות נכנסות ביום חמישי והזכיות נספרות לטבלת העונה. הימור אחד לכל שוק. הכול בצחוק, אף אחד לא באמת מפסיד כסף.",
         adminGate:"לוח הבקרה",adminGateSub:"נדרש קוד מנהל/ת.",code:"קוד",enter:"כניסה",wrongCode:"קוד שגוי.",
         setResults:"רישום תוצאות",setResultsSub:"סימון תוצאה סוגר את השוק ומחשב זכיות מיד לכולם.",lockNow:"נעל/י מסחר עכשיו",unlock:"פתח/י מסחר מחדש",clear:"נקה",
-        newMarket:"שוק חדש למחזור",removeMarket:"מחק שוק",confirmRemove:"למחוק? לחץ שוב",marketRemoved:"השוק נמחק וההימורים עליו בוטלו.",newMarketSub:"נוסף למחזור הנוכחי ומופיע לכולם.",marketTitle:"שם השוק",optionsPlaceholder:"אפשרות | יחס\nלמשל:\nכן, יקרה | 2.5\nלא יקרה | 1.6",addMarket:"הוסף/י שוק",addMarketHint:"שורה לכל אפשרות",
+        editMarkets:"עריכת שווקים",editMarketsSub:"אפשר לשנות שם, תיאור, אפשרויות ויחסים. שינוי יחס משפיע גם על הימורים שכבר הונחו.",
+        edit:"ערוך",save:"שמור",revert:"החזר למקור",addOption:"הוסף אפשרות",optionLabel:"אפשרות",oddsLabel:"יחס",addToRound:"הוסף שוק מהמאגר",
+        minTwo:"צריך שם ולפחות שתי אפשרויות.",marketSaved:"השוק עודכן.",marketReset:"השוק הוחזר למקור.",marketAdded:"השוק נוסף למחזור.",inRound:"במחזור",
+        newMarket:"שוק חדש למחזור",removeMarket:"מחק שוק",confirmRemove:"למחוק? לחץ שוב",marketRemoved:"השוק נמחק וההימורים עליו בוטלו.",newMarketSub:"נוסף למחזור הנוכחי ומופיע לכולם.",marketTitle:"שם השוק",marketSub:"תיאור קצר (לא חובה)",optionsPlaceholder:"אפשרות | יחס\nלמשל:\nכן, יקרה | 2.5\nלא יקרה | 1.6",addMarket:"הוסף/י שוק",addMarketHint:"שורה לכל אפשרות",
         announce:"הודעה לכולם",announceSub:"מופיעה בראש המסך לכל המשתתפים.",announcePlaceholder:"למשל: התוצאות של השבוע נכנסו. מזל טוב לדני.",publish:"פרסם/י",
         roster:"רשימת שחקנים",rosterSub:"אפשר לאפס קוד אישי או להסיר שחקן/ית.",resetPin:"אפס קוד",remove:"הסר",
         won:"זכית ב־",lost:"הפסדת",noBetHere:"לא הימרת פה",result:"תוצאה",lockedWait:"המסחר נעול לשבוע. ממתינים לתוצאות.",yourBet:"ההימור שלך",notBetYet:"טרם הימרת",
@@ -562,7 +624,10 @@ class Component extends DCLogic {
         rules:"The trading window is Sunday, 08:00 to 10:00 — two hours, once a week. At open each player gets the weekly allowance; whatever is unstaked at 10:00 evaporates, like everything else around here. Bets stand for the whole week, results land on Thursday, and winnings count towards the season table. One bet per market. It's all a joke — nobody actually loses money.",
         adminGate:"Control room",adminGateSub:"Admin code required.",code:"Code",enter:"Enter",wrongCode:"Wrong code.",
         setResults:"Record results",setResultsSub:"Marking a result closes the market and pays out immediately for everyone.",lockNow:"Lock trading now",unlock:"Reopen trading",clear:"Clear",
-        newMarket:"New market for this round",removeMarket:"Delete market",confirmRemove:"Delete? Tap again",marketRemoved:"Market deleted, its bets cancelled.",newMarketSub:"Added to the current round and visible to everyone.",marketTitle:"Market title",optionsPlaceholder:"option | odds\ne.g.\nYes, it happens | 2.5\nNo | 1.6",addMarket:"Add market",addMarketHint:"One line per option",
+        editMarkets:"Edit markets",editMarketsSub:"Change the title, description, options and odds. Changing odds also affects bets already placed.",
+        edit:"Edit",save:"Save",revert:"Reset to default",addOption:"Add option",optionLabel:"Option",oddsLabel:"Odds",addToRound:"Add a market from the catalogue",
+        minTwo:"Needs a title and at least two options.",marketSaved:"Market updated.",marketReset:"Market reset to default.",marketAdded:"Market added to the round.",inRound:"in round",
+        newMarket:"New market for this round",removeMarket:"Delete market",confirmRemove:"Delete? Tap again",marketRemoved:"Market deleted, its bets cancelled.",newMarketSub:"Added to the current round and visible to everyone.",marketTitle:"Market title",marketSub:"Short description (optional)",optionsPlaceholder:"option | odds\ne.g.\nYes, it happens | 2.5\nNo | 1.6",addMarket:"Add market",addMarketHint:"One line per option",
         announce:"Notice to everyone",announceSub:"Shown at the top of the screen for all players.",announcePlaceholder:"e.g. This week's results are in. Congratulations, Dan.",publish:"Publish",
         roster:"Player roster",rosterSub:"Reset a personal code or remove a player.",resetPin:"Reset code",remove:"Remove",
         won:"Won ",lost:"Lost",noBetHere:"No bet here",result:"Result",lockedWait:"Locked for the week. Waiting for results.",yourBet:"Your bet",notBetYet:"No bet yet",
@@ -573,7 +638,7 @@ class Component extends DCLogic {
     this.CUR = this.weekIdOf(new Date());
     this.state = {lang:(p.defaultLang||"he"),tab:"bet",pid:null,players:{},bets:{},weeks:{},
       sel:{},amt:{},loginName:"",loginPin:"",loginErr:"",adminOk:false,code:"",
-      now:Date.now(),ready:false,toast:"",offline:false,newIco:"🎲",newTitle:"",newOpts:"",annDraft:"",delArm:""};
+      now:Date.now(),ready:false,toast:"",offline:false,newIco:"🎲",newTitle:"",newOpts:"",annDraft:"",delArm:"",edit:null};
   }
 
   /* ---------- time ---------- */
@@ -609,6 +674,21 @@ class Component extends DCLogic {
   allMarkets(id){
     var all={}; this.FIXED.concat(this.ROTATING).forEach(function(m){ all[m.id]=m; });
     this.customOf(id).forEach(function(m){ all[m.id]=m; });
+    var w=this.week(id), ov=(w&&w.overrides)||{};
+    Object.keys(ov).forEach(function(mid){
+      var base=all[mid]; if(!base) return;
+      var o=ov[mid]||{};
+      var opts=(o.options&&o.options.length)? o.options.map(function(x){
+        return {id:x.id, he:x.label, en:x.label, odds:(+x.odds>1?+x.odds:1.1), excl:!!x.excl};
+      }) : base.options;
+      all[mid]=Object.assign({},base,{
+        ico: o.ico||base.ico,
+        he: o.title||base.he, en: o.title||base.en,
+        heSub:(o.sub!==undefined&&o.sub!=="")?o.sub:base.heSub,
+        enSub:(o.sub!==undefined&&o.sub!=="")?o.sub:base.enSub,
+        options:opts, edited:true
+      });
+    });
     return all;
   }
   marketIdsFor(id){ var w=this.week(id); var base=(w&&w.marketIds&&w.marketIds.length)?w.marketIds:this.rollMarkets(id);
@@ -827,6 +907,7 @@ class Component extends DCLogic {
     var body={weekId:this.CUR,marketIds:(patch.marketIds!==undefined)?patch.marketIds:(w.marketIds||this.rollMarkets(this.CUR)),
       results:(patch.results!==undefined)?patch.results:(w.results||{}),
       custom:(patch.custom!==undefined)?patch.custom:(w.custom||[]),
+      overrides:(patch.overrides!==undefined)?patch.overrides:(w.overrides||{}),
       openAtMs:(typeof patch.openAtMs==="number")?patch.openAtMs:(typeof w.openAtMs==="number"?w.openAtMs:this.openTimeOf(this.CUR).getTime()),
       lockOverride:(patch.lockOverride!==undefined)?patch.lockOverride:(w.lockOverride===true),
       openOverride:(patch.openOverride!==undefined)?patch.openOverride:(w.openOverride===true),
@@ -879,7 +960,45 @@ class Component extends DCLogic {
     });
     this.setState({bets:bets,delArm:""});
     if(this.db) killed.forEach(function(k){ self.db.doc("bets/"+k).delete().catch(function(){}); });
-    this.saveWeek({custom:custom,results:results,marketIds:ids}, this.tt().marketRemoved);
+    var ov=Object.assign({},w.overrides||{}); delete ov[mid];
+    this.saveWeek({custom:custom,results:results,marketIds:ids,overrides:ov}, this.tt().marketRemoved);
+  }
+  openEditor(mid){
+    var m=this.allMarkets(this.CUR)[mid]; if(!m) return;
+    var self=this;
+    this.setState({delArm:"", edit:{mid:mid, ico:m.ico||"🎲", title:this.mTitle(m), sub:this.mSub(m)||"",
+      opts:m.options.map(function(o){ return {id:o.id, label:self.oLabel(o), odds:String(o.odds), excl:!!o.excl}; })}});
+  }
+  editField(k,v){ var e=Object.assign({},this.state.edit); e[k]=v; this.setState({edit:e}); }
+  editOpt(i,k,v){ var e=Object.assign({},this.state.edit);
+    e.opts=e.opts.map(function(o,j){ return j===i? Object.assign({},o,(k==="label"?{label:v}:{odds:v})) : o; });
+    this.setState({edit:e}); }
+  addOpt(){ var e=Object.assign({},this.state.edit);
+    e.opts=e.opts.concat([{id:"o"+Date.now().toString(36), label:"", odds:"2.0"}]); this.setState({edit:e}); }
+  removeOpt(i){ var e=Object.assign({},this.state.edit);
+    if(e.opts.length<=2) { this.toast(this.tt().minTwo); return; }
+    e.opts=e.opts.filter(function(o,j){ return j!==i; }); this.setState({edit:e}); }
+  saveEditor(){
+    var e=this.state.edit; if(!e) return;
+    var opts=e.opts.filter(function(o){ return (o.label||"").trim().length>0; })
+      .map(function(o){ return {id:o.id, label:o.label.trim(), odds:(parseFloat(String(o.odds).replace(",","."))>1?parseFloat(String(o.odds).replace(",",".")):1.1), excl:!!o.excl}; });
+    if((e.title||"").trim().length<2 || opts.length<2){ this.toast(this.tt().minTwo); return; }
+    var w=this.state.weeks[this.CUR]||{};
+    var ov=Object.assign({},w.overrides||{});
+    ov[e.mid]={ico:e.ico||"🎲", title:e.title.trim(), sub:(e.sub||"").trim(), options:opts};
+    this.setState({edit:null});
+    this.saveWeek({overrides:ov}, this.tt().marketSaved);
+  }
+  resetMarket(mid){
+    var w=this.state.weeks[this.CUR]||{};
+    var ov=Object.assign({},w.overrides||{}); delete ov[mid];
+    this.setState({edit:null});
+    this.saveWeek({overrides:ov}, this.tt().marketReset);
+  }
+  addStandard(mid){
+    var ids=this.marketIdsFor(this.CUR);
+    if(ids.indexOf(mid)>=0) return;
+    this.saveWeek({marketIds:ids.concat([mid])}, this.tt().marketAdded);
   }
   publishAnn(){ this.saveWeek({note:this.state.annDraft.trim()},this.tt().saved); }
   clearAnn(){ this.setState({annDraft:""}); this.saveWeek({note:""},this.tt().saved); }
@@ -1148,6 +1267,41 @@ class Component extends DCLogic {
         onClearResult:function(){ self.setResult(mid,""); }};
     }).filter(Boolean);
 
+    var editableMarkets = ids.map(function(mid){
+      var m=all[mid]; if(!m) return null;
+      var isFixed=self.FIXED.some(function(f){return f.id===mid;});
+      return {ico:m.ico, title:self.mTitle(m),
+        meta:(m.custom? t.custom : (isFixed? t.fixed : t.rotating))+" · "+m.options.length+" × "+
+          m.options.map(function(o){ return o.odds.toFixed(1); }).join("/"),
+        edited: !!m.edited,
+        onEdit:function(){ self.openEditor(mid); },
+        onReset:function(){ self.resetMarket(mid); },
+        delLabel: S.delArm===mid ? t.confirmRemove : t.removeMarket,
+        delStyle: "border:1px solid "+(S.delArm===mid?"#ff6b4a":"#2e2b28")+";background:"+(S.delArm===mid?"#ff6b4a":"transparent")+
+          ";color:"+(S.delArm===mid?"#141312":"#968e84")+";border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700",
+        onDelete:function(){ if(S.delArm===mid) self.removeMarket(mid); else self.setState({delArm:mid}); }};
+    }).filter(Boolean);
+
+    var E=S.edit;
+    var editor = E ? {
+      ico:E.ico, title:E.title, sub:E.sub,
+      onIco:function(e){ self.editField("ico",e.target.value); },
+      onTitle:function(e){ self.editField("title",e.target.value); },
+      onSub:function(e){ self.editField("sub",e.target.value); },
+      rows:E.opts.map(function(o,i){
+        return {label:o.label, odds:o.odds,
+          onLabel:function(e){ self.editOpt(i,"label",e.target.value); },
+          onOdds:function(e){ self.editOpt(i,"odds",e.target.value); },
+          onRemove:function(){ self.removeOpt(i); }};
+      }),
+      onAddOpt:function(){ self.addOpt(); },
+      onSave:function(){ self.saveEditor(); },
+      onCancel:function(){ self.setState({edit:null}); }
+    } : {ico:"",title:"",sub:"",rows:[],onIco:function(){},onTitle:function(){},onSub:function(){},onAddOpt:function(){},onSave:function(){},onCancel:function(){}};
+
+    var catalogue = this.FIXED.concat(this.ROTATING).filter(function(m){ return ids.indexOf(m.id)<0; })
+      .map(function(m){ return {label:m.ico+" "+self.mTitle(m), onAdd:function(){ self.addStandard(m.id); }}; });
+
     var roster=pidList.map(function(pid){
       var p=S.players[pid]||{};
       return {name:self.nameOf(pid),initials:self.initialsOf(self.nameOf(pid)),
@@ -1207,6 +1361,7 @@ class Component extends DCLogic {
       lockBtnLabel: tradingNow? t.lockNow : t.unlock,
       onToggleLock:function(){ self.toggleLock(); },
       adminMarkets:adminMarkets,
+      editableMarkets:editableMarkets, editor:editor, editorOpen:!!S.edit, catalogue:catalogue, noCatalogue:!catalogue.length,
       newIco:S.newIco, newTitle:S.newTitle, newOpts:S.newOpts,
       onNewIco:function(e){ self.setState({newIco:e.target.value}); },
       onNewTitle:function(e){ self.setState({newTitle:e.target.value}); },
