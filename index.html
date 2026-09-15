@@ -8,52 +8,53 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<script src="./firebase-config.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:#f7f8fc;-webkit-font-smoothing:antialiased}
-a{color:#1B2C9B}a:hover{color:#7B5DB5}
+body{margin:0;background:#141312;-webkit-font-smoothing:antialiased}
+a{color:#e8ff3a}a:hover{color:#ff3d7f}
 button{font-family:inherit;cursor:pointer}
 input,textarea,select{font-family:inherit}
-:focus-visible{outline:2px solid #7B5DB5;outline-offset:2px}
+:focus-visible{outline:2px solid #ff3d7f;outline-offset:2px}
 @keyframes dkpop{from{transform:translateY(10px);opacity:0}}
 </style>
 </helmet>
 
-<div dir="{{ dir }}" style="min-height:100vh;background:#f7f8fc;color:#2c3356;font-family:'Assistant','Inter',system-ui,sans-serif;font-size:14px;line-height:1.5">
+<div dir="{{ dir }}" style="min-height:100vh;background:#141312;background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);background-size:4px 4px;color:#f2f0ec;font-family:'Rubik',system-ui,sans-serif;font-size:14px;line-height:1.5">
 
 <sc-if value="{{ needsLogin }}" hint-placeholder-val="{{ false }}">
-  <div style="min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(180deg,#1B2C9B 0%,#141f6e 100%)">
-    <div style="width:100%;max-width:420px;background:#ffffff;border-radius:14px;box-shadow:0 18px 50px rgba(10,16,60,.35);overflow:hidden">
-      <div style="padding:26px 26px 20px;border-bottom:1px solid #eef0f6">
+  <div style="min-height:100vh;display:grid;place-items:center;padding:24px;background:#0e0d0c;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:4px 4px">
+    <div style="width:100%;max-width:420px;background:#1e1c1a;border-radius:3px;box-shadow:0 18px 50px rgba(0,0,0,.6);overflow:hidden">
+      <div style="padding:26px 26px 20px;border-bottom:1px solid #242220">
         <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:40px;height:40px;border-radius:10px;background:#1B2C9B;display:grid;place-items:center;flex:none">
-            <div style="width:14px;height:14px;border-radius:50%;background:#7B5DB5"></div>
+          <div style="width:40px;height:40px;border-radius:2px;background:#e8ff3a;display:grid;place-items:center;flex:none">
+            <div style="width:14px;height:14px;border-radius:50%;background:#ff3d7f"></div>
           </div>
           <div>
-            <div style="font-size:19px;font-weight:800;letter-spacing:-.01em;color:#2c3356">{{ t.brand }}</div>
-            <div style="font-size:12.5px;color:#5a6282">{{ t.tagline }}</div>
+            <div style="font-family:'Secular One',sans-serif;font-size:25px;font-weight:400;letter-spacing:-.02em;color:#e8ff3a;line-height:1.1">{{ t.brand }}</div>
+            <div style="font-size:12.5px;color:#8d867d">{{ t.tagline }}</div>
           </div>
         </div>
       </div>
       <div style="padding:22px 26px 26px;display:flex;flex-direction:column;gap:14px">
-        <div style="font-size:13.5px;color:#5a6282">{{ t.loginHelp }}</div>
+        <div style="font-size:13.5px;color:#8d867d">{{ t.loginHelp }}</div>
         <label style="display:flex;flex-direction:column;gap:6px">
-          <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5a6282">{{ t.yourName }}</span>
-          <input type="text" maxlength="24" autocomplete="off" value="{{ loginName }}" onInput="{{ onLoginName }}" style="height:44px;padding:0 12px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:15px;color:#2c3356">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8d867d">{{ t.yourName }}</span>
+          <input type="text" maxlength="24" autocomplete="off" value="{{ loginName }}" onInput="{{ onLoginName }}" style="height:44px;padding:0 12px;border:1px solid #2e2b28;border-radius:2px;background:#141312;font-size:15px;color:#f2f0ec">
         </label>
         <label style="display:flex;flex-direction:column;gap:6px">
-          <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5a6282">{{ t.yourPin }}</span>
-          <input type="password" inputmode="numeric" maxlength="4" autocomplete="off" value="{{ loginPin }}" onInput="{{ onLoginPin }}" onKeyDown="{{ onLoginKey }}" style="height:44px;padding:0 12px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-family:'Inter',monospace;font-size:20px;letter-spacing:.35em;color:#2c3356">
-          <span style="font-size:12px;color:#9299b8">{{ t.pinHint }}</span>
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8d867d">{{ t.yourPin }}</span>
+          <input type="password" inputmode="numeric" maxlength="4" autocomplete="off" value="{{ loginPin }}" onInput="{{ onLoginPin }}" onKeyDown="{{ onLoginKey }}" style="height:44px;padding:0 12px;border:1px solid #2e2b28;border-radius:2px;background:#141312;font-family:'Space Mono',monospace;font-size:20px;letter-spacing:.35em;color:#f2f0ec">
+          <span style="font-size:12px;color:#57524b">{{ t.pinHint }}</span>
         </label>
         <sc-if value="{{ loginErr }}" hint-placeholder-val="{{ false }}">
-          <div style="background:#fdecea;color:#c0392b;border-radius:8px;padding:9px 12px;font-size:13px;font-weight:600">{{ loginErr }}</div>
+          <div style="background:#2a1512;color:#ff6b4a;border-radius:2px;padding:9px 12px;font-size:13px;font-weight:600">{{ loginErr }}</div>
         </sc-if>
-        <button type="button" onClick="{{ onLogin }}" style="height:46px;border:0;border-radius:8px;background:#1B2C9B;color:#ffffff;font-size:15px;font-weight:700" style-hover="background:#141f6e">{{ loginCta }}</button>
-        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eef0f6;padding-top:12px">
-          <span style="font-size:12px;color:#9299b8">{{ playerCountLine }}</span>
-          <button type="button" onClick="{{ toggleLang }}" style="border:1px solid #dde0ec;background:#ffffff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;color:#5a6282">{{ langLabel }}</button>
+        <button type="button" onClick="{{ onLogin }}" style="height:46px;border:0;border-radius:2px;background:#e8ff3a;color:#141312;font-size:15px;font-weight:700" style-hover="background:#c6da2b">{{ loginCta }}</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #242220;padding-top:12px">
+          <span style="font-size:12px;color:#57524b">{{ playerCountLine }}</span>
+          <button type="button" onClick="{{ toggleLang }}" style="border:1px solid #2e2b28;background:#1e1c1a;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;color:#8d867d">{{ langLabel }}</button>
         </div>
       </div>
     </div>
@@ -62,30 +63,30 @@ input,textarea,select{font-family:inherit}
 
 <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ true }}">
 <div>
-  <header style="background:#1B2C9B;box-shadow:0 2px 10px rgba(27,44,155,.25)">
+  <header style="background:#0e0d0c;border-bottom:1px solid #2e2b28">
     <div style="max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:11px;min-width:0">
-        <div style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.14);display:grid;place-items:center;flex:none">
-          <div style="width:12px;height:12px;border-radius:50%;background:#b9a7e0"></div>
+        <div style="width:34px;height:34px;border-radius:2px;background:rgba(232,255,58,.16);display:grid;place-items:center;flex:none">
+          <div style="width:12px;height:12px;border-radius:50%;background:#e8ff3a"></div>
         </div>
         <div style="min-width:0">
-          <div style="font-size:16px;font-weight:800;color:#ffffff;letter-spacing:-.01em;white-space:nowrap">{{ t.brand }}</div>
-          <div style="font-size:11.5px;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ roundLine }}</div>
+          <div style="font-family:'Secular One',sans-serif;font-size:19px;font-weight:400;color:#e8ff3a;letter-spacing:-.02em;white-space:nowrap">{{ t.brand }}</div>
+          <div style="font-size:11.5px;color:#8d867d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ roundLine }}</div>
         </div>
       </div>
       <div style="flex:1"></div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <div style="{{ statusPillStyle }}">{{ statusText }}</div>
-        <div style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border-radius:999px;padding:5px 12px">
-          <span style="font-size:11px;color:rgba(255,255,255,.62);font-weight:600">{{ t.closesIn }}</span>
-          <span style="font-family:'Inter',monospace;font-size:13px;font-weight:600;color:#ffffff;font-variant-numeric:tabular-nums">{{ countdown }}</span>
+        <div style="display:flex;align-items:center;gap:7px;background:#1a1817;border-radius:999px;padding:5px 12px">
+          <span style="font-size:11px;color:#8d867d;font-weight:600">{{ t.closesIn }}</span>
+          <span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#f2f0ec;font-variant-numeric:tabular-nums">{{ countdown }}</span>
         </div>
-        <button type="button" onClick="{{ toggleLang }}" style="border:1px solid rgba(255,255,255,.28);background:transparent;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:#ffffff">{{ langLabel }}</button>
-        <div style="display:flex;align-items:center;gap:9px;background:#ffffff;border-radius:999px;padding:4px 5px 4px 12px">
-          <span style="font-size:12.5px;font-weight:700;color:#2c3356;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ myName }}</span>
-          <div style="width:28px;height:28px;border-radius:50%;background:#7B5DB5;color:#ffffff;display:grid;place-items:center;font-size:11.5px;font-weight:700;flex:none">{{ initials }}</div>
+        <button type="button" onClick="{{ toggleLang }}" style="border:1px solid #2e2b28;background:transparent;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:#141312">{{ langLabel }}</button>
+        <div style="display:flex;align-items:center;gap:9px;background:#1e1c1a;border:1px solid #2e2b28;border-radius:999px;padding:4px 5px 4px 12px">
+          <span style="font-size:12.5px;font-weight:700;color:#f2f0ec;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ myName }}</span>
+          <div style="width:28px;height:28px;border-radius:50%;background:#ff3d7f;color:#141312;display:grid;place-items:center;font-size:11.5px;font-weight:700;flex:none">{{ initials }}</div>
         </div>
-        <button type="button" onClick="{{ onLogout }}" title="{{ t.logout }}" style="border:1px solid rgba(255,255,255,.28);background:transparent;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:rgba(255,255,255,.85)">{{ t.logout }}</button>
+        <button type="button" onClick="{{ onLogout }}" title="{{ t.logout }}" style="border:1px solid #2e2b28;background:transparent;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:#8d867d">{{ t.logout }}</button>
       </div>
     </div>
     <div style="max-width:1180px;margin:0 auto;padding:0 12px;display:flex;gap:2px;overflow-x:auto">
@@ -101,10 +102,10 @@ input,textarea,select{font-family:inherit}
   </header>
 
   <sc-if value="{{ annText }}" hint-placeholder-val="{{ false }}">
-    <div style="background:#fef3dc;border-bottom:1px solid #f0dfb4">
+    <div style="background:#2a2413;border-bottom:1px solid #3a3418">
       <div style="max-width:1180px;margin:0 auto;padding:11px 20px;display:flex;gap:10px;align-items:baseline">
-        <span style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#c47b0b;white-space:nowrap">{{ t.announcement }}</span>
-        <span style="font-size:13.5px;color:#7a5307">{{ annText }}</span>
+        <span style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#e8b64c;white-space:nowrap">{{ t.announcement }}</span>
+        <span style="font-size:13.5px;color:#e8b64c">{{ annText }}</span>
       </div>
     </div>
   </sc-if>
@@ -113,28 +114,28 @@ input,textarea,select{font-family:inherit}
 
     <sc-if value="{{ isBet }}" hint-placeholder-val="{{ true }}">
     <section data-screen-label="Bet" style="display:flex;flex-direction:column;gap:18px">
-      <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:16px 18px;display:flex;flex-wrap:wrap;gap:18px;align-items:center">
+      <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);padding:16px 18px;display:flex;flex-wrap:wrap;gap:18px;align-items:center">
         <div style="min-width:170px">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#5a6282">{{ t.budgetLeft }}</div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#8d867d">{{ t.budgetLeft }}</div>
           <div style="display:flex;align-items:baseline;gap:6px;margin-top:2px">
-            <span style="font-family:'Inter',monospace;font-size:34px;font-weight:700;line-height:1;color:#1B2C9B;font-variant-numeric:tabular-nums">{{ leftText }}</span>
-            <span style="font-size:13px;font-weight:600;color:#9299b8">{{ grantText }}</span>
+            <span style="font-family:'Space Mono',monospace;font-size:34px;font-weight:700;line-height:1;color:#e8ff3a;font-variant-numeric:tabular-nums">{{ leftText }}</span>
+            <span style="font-size:13px;font-weight:600;color:#57524b">{{ grantText }}</span>
           </div>
         </div>
         <div style="flex:1;min-width:200px">
-          <div style="height:8px;border-radius:5px;background:#eef0f6;overflow:hidden">
+          <div style="height:8px;border-radius:5px;background:#242220;overflow:hidden">
             <div style="{{ budgetBarStyle }}"></div>
           </div>
-          <div style="font-size:12.5px;color:#5a6282;margin-top:7px">{{ budgetSub }}</div>
+          <div style="font-size:12.5px;color:#8d867d;margin-top:7px">{{ budgetSub }}</div>
         </div>
         <div style="display:flex;gap:16px;flex-wrap:wrap">
           <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#5a6282">{{ t.betsPlaced }}</div>
-            <div style="font-family:'Inter',monospace;font-size:19px;font-weight:700;color:#2c3356">{{ myBetsLine }}</div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#8d867d">{{ t.betsPlaced }}</div>
+            <div style="font-family:'Space Mono',monospace;font-size:19px;font-weight:700;color:#f2f0ec">{{ myBetsLine }}</div>
           </div>
           <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#5a6282">{{ t.maxPayout }}</div>
-            <div style="font-family:'Inter',monospace;font-size:19px;font-weight:700;color:#1a8c5b">{{ myMaxPayout }}</div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#8d867d">{{ t.maxPayout }}</div>
+            <div style="font-family:'Space Mono',monospace;font-size:19px;font-weight:700;color:#8cff6b">{{ myMaxPayout }}</div>
           </div>
         </div>
       </div>
@@ -143,10 +144,10 @@ input,textarea,select{font-family:inherit}
         <sc-for list="{{ markets }}" as="m" hint-placeholder-count="5">
           <article style="{{ m.cardStyle }}">
             <div style="display:flex;gap:11px;align-items:flex-start;padding:15px 16px 12px">
-              <div style="width:34px;height:34px;border-radius:9px;background:#f7f8fc;border:1px solid #eef0f6;display:grid;place-items:center;font-size:17px;flex:none">{{ m.ico }}</div>
+              <div style="width:34px;height:34px;border-radius:2px;background:#141312;border:1px solid #242220;display:grid;place-items:center;font-size:17px;flex:none">{{ m.ico }}</div>
               <div style="flex:1;min-width:0">
-                <h3 style="margin:0;font-size:16px;font-weight:800;letter-spacing:-.01em;color:#2c3356;text-wrap:pretty">{{ m.title }}</h3>
-                <div style="font-size:12.5px;color:#5a6282;margin-top:2px;text-wrap:pretty">{{ m.sub }}</div>
+                <h3 style="margin:0;font-family:'Secular One',sans-serif;font-size:21px;font-weight:400;line-height:1.2;letter-spacing:-.01em;color:#f2f0ec;text-wrap:pretty">{{ m.title }}</h3>
+                <div style="font-size:12.5px;color:#8d867d;margin-top:2px;text-wrap:pretty">{{ m.sub }}</div>
               </div>
               <span style="{{ m.kindStyle }}">{{ m.kindLabel }}</span>
             </div>
@@ -157,10 +158,10 @@ input,textarea,select{font-family:inherit}
                   <span style="display:flex;align-items:center;gap:6px;flex:none">
                     <sc-if value="{{ o.showShare }}" hint-placeholder-val="{{ false }}">
                       <span style="display:flex;align-items:center;gap:5px">
-                        <span style="width:42px;height:5px;border-radius:3px;background:#eef0f6;overflow:hidden;display:block">
+                        <span style="width:42px;height:5px;border-radius:3px;background:#242220;overflow:hidden;display:block">
                           <span style="{{ o.shareStyle }}"></span>
                         </span>
-                        <span style="font-family:'Inter',monospace;font-size:11px;font-weight:600;color:#9299b8;width:30px;text-align:end">{{ o.pctText }}</span>
+                        <span style="font-family:'Space Mono',monospace;font-size:11px;font-weight:600;color:#57524b;width:30px;text-align:end">{{ o.pctText }}</span>
                       </span>
                     </sc-if>
                     <span style="{{ o.oddsStyle }}">{{ o.oddsText }}</span>
@@ -170,22 +171,22 @@ input,textarea,select{font-family:inherit}
             </div>
 
             <sc-if value="{{ m.canBet }}" hint-placeholder-val="{{ true }}">
-              <div style="margin:13px 16px 0;padding:13px 0 0;border-top:1px dashed #dde0ec">
+              <div style="margin:13px 16px 0;padding:13px 0 0;border-top:1px dashed #2e2b28">
                 <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-                  <input type="number" min="10" max="100000" step="10" value="{{ m.amount }}" onInput="{{ m.onAmount }}" aria-label="{{ t.stake }}" style="width:92px;height:38px;padding:0 10px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-family:'Inter',monospace;font-size:15px;font-weight:600;color:#2c3356">
+                  <input type="number" min="10" max="100000" step="10" value="{{ m.amount }}" onInput="{{ m.onAmount }}" aria-label="{{ t.stake }}" style="width:92px;height:38px;padding:0 10px;border:1px solid #2e2b28;border-radius:2px;background:#141312;font-family:'Space Mono',monospace;font-size:15px;font-weight:600;color:#f2f0ec">
                   <div style="display:flex;gap:5px">
                     <sc-for list="{{ m.chips }}" as="c" hint-placeholder-count="3">
-                      <button type="button" onClick="{{ c.onClick }}" style="border:1px solid #dde0ec;background:#ffffff;border-radius:999px;padding:6px 11px;font-family:'Inter',monospace;font-size:12.5px;font-weight:600;color:#5a6282" style-hover="border-color:#7B5DB5;color:#7B5DB5">{{ c.label }}</button>
+                      <button type="button" onClick="{{ c.onClick }}" style="border:1px solid #2e2b28;background:#1e1c1a;border-radius:999px;padding:6px 11px;font-family:'Space Mono',monospace;font-size:12.5px;font-weight:600;color:#8d867d" style-hover="border-color:#ff3d7f;color:#ff3d7f">{{ c.label }}</button>
                     </sc-for>
                   </div>
                   <div style="flex:1"></div>
                   <button type="button" onClick="{{ m.onPlace }}" disabled="{{ m.placeDisabled }}" style="{{ m.placeStyle }}">{{ m.placeLabel }}</button>
                   <sc-if value="{{ m.hasBet }}" hint-placeholder-val="{{ false }}">
-                    <button type="button" onClick="{{ m.onClear }}" style="height:38px;padding:0 12px;border:1px solid #dde0ec;background:#ffffff;border-radius:8px;font-size:13px;font-weight:600;color:#5a6282" style-hover="border-color:#c0392b;color:#c0392b">{{ t.cancel }}</button>
+                    <button type="button" onClick="{{ m.onClear }}" style="height:38px;padding:0 12px;border:1px solid #2e2b28;background:#1e1c1a;border-radius:2px;font-size:13px;font-weight:600;color:#8d867d" style-hover="border-color:#ff6b4a;color:#ff6b4a">{{ t.cancel }}</button>
                   </sc-if>
                 </div>
                 <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin-top:9px;padding-bottom:14px">
-                  <span style="font-size:12.5px;color:#5a6282">{{ m.pickLine }}</span>
+                  <span style="font-size:12.5px;color:#8d867d">{{ m.pickLine }}</span>
                   <span style="{{ m.payoutLineStyle }}">{{ m.payoutLine }}</span>
                 </div>
               </div>
@@ -195,7 +196,7 @@ input,textarea,select{font-family:inherit}
               <div style="{{ m.statusLineStyle }}">
                 <span>{{ m.statusLine }}</span>
                 <sc-if value="{{ m.myLine }}" hint-placeholder-val="{{ false }}">
-                  <span style="font-weight:700;color:#2c3356">{{ m.myLine }}</span>
+                  <span style="font-weight:700;color:#f2f0ec">{{ m.myLine }}</span>
                 </sc-if>
               </div>
             </sc-if>
@@ -209,64 +210,64 @@ input,textarea,select{font-family:inherit}
     <section data-screen-label="Dashboard" style="display:flex;flex-direction:column;gap:18px">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px">
         <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
-          <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:14px 16px">
+          <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);padding:14px 16px">
             <div style="display:flex;align-items:center;gap:8px">
               <span style="{{ s.dotStyle }}"></span>
-              <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5a6282">{{ s.label }}</span>
+              <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8d867d">{{ s.label }}</span>
             </div>
             <div style="{{ s.valueStyle }}">{{ s.value }}</div>
-            <div style="font-size:12.5px;color:#9299b8;margin-top:1px">{{ s.sub }}</div>
+            <div style="font-size:12.5px;color:#57524b;margin-top:1px">{{ s.sub }}</div>
           </div>
         </sc-for>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;align-items:start">
-        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
-          <div style="padding:14px 16px;border-bottom:1px solid #eef0f6;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
-            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.leaderboard }}</h2>
-            <span style="font-size:12px;color:#9299b8">{{ t.leaderboardSub }}</span>
+        <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #242220;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.leaderboard }}</h2>
+            <span style="font-size:12px;color:#57524b">{{ t.leaderboardSub }}</span>
           </div>
           <div style="padding:8px">
             <sc-for list="{{ leaders }}" as="r" hint-placeholder-count="5">
               <div style="{{ r.rowStyle }}">
-                <span style="font-family:'Inter',monospace;font-size:12px;font-weight:600;color:#9299b8;width:20px;text-align:center">{{ r.rank }}</span>
+                <span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:600;color:#57524b;width:20px;text-align:center">{{ r.rank }}</span>
                 <span style="{{ r.avatarStyle }}">{{ r.initials }}</span>
-                <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;font-weight:600;color:#2c3356">{{ r.name }}</span>
-                <span style="font-size:12px;color:#9299b8">{{ r.meta }}</span>
+                <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;font-weight:600;color:#f2f0ec">{{ r.name }}</span>
+                <span style="font-size:12px;color:#57524b">{{ r.meta }}</span>
                 <span style="{{ r.netStyle }}">{{ r.net }}</span>
               </div>
             </sc-for>
             <sc-if value="{{ noLeaders }}" hint-placeholder-val="{{ false }}">
-              <div style="padding:14px;font-size:13px;color:#9299b8">{{ t.noPlayers }}</div>
+              <div style="padding:14px;font-size:13px;color:#57524b">{{ t.noPlayers }}</div>
             </sc-if>
           </div>
         </div>
 
-        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
-          <div style="padding:14px 16px;border-bottom:1px solid #eef0f6;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
-            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.whoIn }}</h2>
-            <span style="font-size:12px;color:#9299b8">{{ whoInCount }}</span>
+        <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #242220;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.whoIn }}</h2>
+            <span style="font-size:12px;color:#57524b">{{ whoInCount }}</span>
           </div>
           <div style="padding:14px 16px;display:flex;flex-direction:column;gap:14px">
             <div>
-              <div style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1a8c5b;margin-bottom:7px">{{ t.placedAll }}</div>
+              <div style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8cff6b;margin-bottom:7px">{{ t.placedAll }}</div>
               <div style="display:flex;flex-wrap:wrap;gap:6px">
                 <sc-for list="{{ placedList }}" as="p" hint-placeholder-count="4">
-                  <span style="{{ p.style }}">{{ p.name }}<span style="font-family:'Inter',monospace;font-weight:700;color:#5a6282">{{ p.amount }}</span></span>
+                  <span style="{{ p.style }}">{{ p.name }}<span style="font-family:'Space Mono',monospace;font-weight:700;color:#8d867d">{{ p.amount }}</span></span>
                 </sc-for>
                 <sc-if value="{{ noPlaced }}" hint-placeholder-val="{{ false }}">
-                  <span style="font-size:13px;color:#9299b8">{{ t.nobodyYet }}</span>
+                  <span style="font-size:13px;color:#57524b">{{ t.nobodyYet }}</span>
                 </sc-if>
               </div>
             </div>
             <div>
-              <div style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#c47b0b;margin-bottom:7px">{{ t.notYet }}</div>
+              <div style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#e8b64c;margin-bottom:7px">{{ t.notYet }}</div>
               <div style="display:flex;flex-wrap:wrap;gap:6px">
                 <sc-for list="{{ missingList }}" as="p" hint-placeholder-count="3">
                   <span style="{{ p.style }}">{{ p.name }}</span>
                 </sc-for>
                 <sc-if value="{{ noMissing }}" hint-placeholder-val="{{ false }}">
-                  <span style="font-size:13px;color:#9299b8">{{ t.allIn }}</span>
+                  <span style="font-size:13px;color:#57524b">{{ t.allIn }}</span>
                 </sc-if>
               </div>
             </div>
@@ -274,29 +275,29 @@ input,textarea,select{font-family:inherit}
         </div>
       </div>
 
-      <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
-        <div style="padding:14px 16px;border-bottom:1px solid #eef0f6;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
-          <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.sentiment }}</h2>
-          <span style="font-size:12px;color:#9299b8">{{ sentimentSub }}</span>
+      <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid #242220;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.sentiment }}</h2>
+          <span style="font-size:12px;color:#57524b">{{ sentimentSub }}</span>
         </div>
         <div style="padding:6px 16px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px">
           <sc-for list="{{ sentiment }}" as="s" hint-placeholder-count="4">
             <div>
               <div style="display:flex;gap:8px;align-items:baseline;margin:12px 0 9px">
                 <span style="font-size:15px">{{ s.ico }}</span>
-                <span style="font-size:13.5px;font-weight:700;color:#2c3356">{{ s.title }}</span>
-                <span style="font-family:'Inter',monospace;font-size:12px;color:#9299b8;margin-inline-start:auto">{{ s.total }}</span>
+                <span style="font-size:13.5px;font-weight:700;color:#f2f0ec">{{ s.title }}</span>
+                <span style="font-family:'Space Mono',monospace;font-size:12px;color:#57524b;margin-inline-start:auto">{{ s.total }}</span>
               </div>
               <div style="display:flex;flex-direction:column;gap:6px">
                 <sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="3">
                   <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
                     <div style="min-width:0">
-                      <div style="font-size:12.5px;color:#5a6282;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.label }}</div>
-                      <div style="height:7px;border-radius:4px;background:#eef0f6;overflow:hidden;margin-top:4px">
+                      <div style="font-size:12.5px;color:#8d867d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.label }}</div>
+                      <div style="height:7px;border-radius:4px;background:#242220;overflow:hidden;margin-top:4px">
                         <div style="{{ r.barStyle }}"></div>
                       </div>
                     </div>
-                    <div style="font-family:'Inter',monospace;font-size:12px;font-weight:600;color:#2c3356;width:52px;text-align:end">{{ r.value }}</div>
+                    <div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:600;color:#f2f0ec;width:52px;text-align:end">{{ r.value }}</div>
                   </div>
                 </sc-for>
               </div>
@@ -309,32 +310,32 @@ input,textarea,select{font-family:inherit}
 
     <sc-if value="{{ isSeason }}" hint-placeholder-val="{{ false }}">
     <section data-screen-label="Season" style="display:flex;flex-direction:column;gap:18px">
-      <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
-        <div style="padding:14px 16px;border-bottom:1px solid #eef0f6">
-          <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.seasonTable }}</h2>
-          <div style="font-size:12.5px;color:#9299b8;margin-top:2px">{{ t.seasonSub }}</div>
+      <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid #242220">
+          <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.seasonTable }}</h2>
+          <div style="font-size:12.5px;color:#57524b;margin-top:2px">{{ t.seasonSub }}</div>
         </div>
         <div style="overflow-x:auto">
           <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px">
             <thead>
               <tr>
-                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec">{{ t.player }}</th>
-                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec">{{ t.rounds }}</th>
-                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec">{{ t.hitRate }}</th>
-                <th style="text-align:end;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec">{{ t.net }}</th>
+                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#8d867d;border-bottom:1px solid #2e2b28">{{ t.player }}</th>
+                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#8d867d;border-bottom:1px solid #2e2b28">{{ t.rounds }}</th>
+                <th style="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#8d867d;border-bottom:1px solid #2e2b28">{{ t.hitRate }}</th>
+                <th style="text-align:end;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#8d867d;border-bottom:1px solid #2e2b28">{{ t.net }}</th>
               </tr>
             </thead>
             <tbody>
               <sc-for list="{{ seasonRows }}" as="r" hint-placeholder-count="5">
                 <tr style="{{ r.trStyle }}">
-                  <td style="padding:10px 14px;border-bottom:1px solid #eef0f6">
+                  <td style="padding:10px 14px;border-bottom:1px solid #242220">
                     <span style="display:flex;align-items:center;gap:9px">
                       <span style="{{ r.avatarStyle }}">{{ r.initials }}</span>
-                      <span style="font-weight:600;color:#2c3356">{{ r.name }}</span>
+                      <span style="font-weight:600;color:#f2f0ec">{{ r.name }}</span>
                     </span>
                   </td>
-                  <td style="padding:10px 14px;border-bottom:1px solid #eef0f6;font-family:'Inter',monospace;color:#5a6282">{{ r.rounds }}</td>
-                  <td style="padding:10px 14px;border-bottom:1px solid #eef0f6;font-family:'Inter',monospace;color:#5a6282">{{ r.hit }}</td>
+                  <td style="padding:10px 14px;border-bottom:1px solid #242220;font-family:'Space Mono',monospace;color:#8d867d">{{ r.rounds }}</td>
+                  <td style="padding:10px 14px;border-bottom:1px solid #242220;font-family:'Space Mono',monospace;color:#8d867d">{{ r.hit }}</td>
                   <td style="{{ r.netTdStyle }}">{{ r.net }}</td>
                 </tr>
               </sc-for>
@@ -342,14 +343,14 @@ input,textarea,select{font-family:inherit}
           </table>
         </div>
         <sc-if value="{{ noSeason }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:16px;font-size:13px;color:#9299b8">{{ t.noSettled }}</div>
+          <div style="padding:16px;font-size:13px;color:#57524b">{{ t.noSettled }}</div>
         </sc-if>
       </div>
 
-      <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
-        <div style="padding:14px 16px;border-bottom:1px solid #eef0f6">
-          <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.archive }}</h2>
-          <div style="font-size:12.5px;color:#9299b8;margin-top:2px">{{ t.archiveSub }}</div>
+      <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid #242220">
+          <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.archive }}</h2>
+          <div style="font-size:12.5px;color:#57524b;margin-top:2px">{{ t.archiveSub }}</div>
         </div>
         <div style="overflow-x:auto">
           <table style="width:100%;border-collapse:collapse;font-size:13px">
@@ -372,50 +373,50 @@ input,textarea,select{font-family:inherit}
           </table>
         </div>
         <sc-if value="{{ noArch }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:16px;font-size:13px;color:#9299b8">{{ t.noArchive }}</div>
+          <div style="padding:16px;font-size:13px;color:#57524b">{{ t.noArchive }}</div>
         </sc-if>
       </div>
 
-      <p style="margin:0;background:#eef0f6;border-radius:12px;padding:16px 18px;font-size:13px;color:#5a6282;max-width:70ch;text-wrap:pretty">{{ t.rules }}</p>
+      <p style="margin:0;background:#242220;border-radius:2px;padding:16px 18px;font-size:13px;color:#8d867d;max-width:70ch;text-wrap:pretty">{{ t.rules }}</p>
     </section>
     </sc-if>
 
     <sc-if value="{{ isAdminTab }}" hint-placeholder-val="{{ false }}">
     <section data-screen-label="Admin" style="display:flex;flex-direction:column;gap:16px">
       <sc-if value="{{ needsCode }}" hint-placeholder-val="{{ true }}">
-        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:20px;max-width:420px">
-          <h2 style="margin:0 0 4px;font-size:15px;font-weight:800;color:#2c3356">{{ t.adminGate }}</h2>
-          <div style="font-size:13px;color:#5a6282;margin-bottom:12px">{{ t.adminGateSub }}</div>
+        <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);padding:20px;max-width:420px">
+          <h2 style="margin:0 0 4px;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.adminGate }}</h2>
+          <div style="font-size:13px;color:#8d867d;margin-bottom:12px">{{ t.adminGateSub }}</div>
           <div style="display:flex;gap:8px">
-            <input type="password" value="{{ code }}" onInput="{{ onCode }}" onKeyDown="{{ onCodeKey }}" placeholder="{{ t.code }}" style="flex:1;height:40px;padding:0 11px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:14px;color:#2c3356">
-            <button type="button" onClick="{{ onCodeGo }}" style="height:40px;padding:0 16px;border:0;border-radius:8px;background:#1B2C9B;color:#ffffff;font-size:14px;font-weight:700">{{ t.enter }}</button>
+            <input type="password" value="{{ code }}" onInput="{{ onCode }}" onKeyDown="{{ onCodeKey }}" placeholder="{{ t.code }}" style="flex:1;height:40px;padding:0 11px;border:1px solid #2e2b28;border-radius:2px;background:#141312;font-size:14px;color:#f2f0ec">
+            <button type="button" onClick="{{ onCodeGo }}" style="height:40px;padding:0 16px;border:0;border-radius:2px;background:#e8ff3a;color:#141312;font-size:14px;font-weight:700">{{ t.enter }}</button>
           </div>
         </div>
       </sc-if>
 
       <sc-if value="{{ adminOk }}" hint-placeholder-val="{{ false }}">
       <div style="display:flex;flex-direction:column;gap:16px">
-        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
-          <div style="padding:14px 16px;border-bottom:1px solid #eef0f6;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+        <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #242220;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
             <div>
-              <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.setResults }}</h2>
-              <div style="font-size:12.5px;color:#9299b8;margin-top:2px">{{ t.setResultsSub }}</div>
+              <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.setResults }}</h2>
+              <div style="font-size:12.5px;color:#57524b;margin-top:2px">{{ t.setResultsSub }}</div>
             </div>
-            <button type="button" onClick="{{ onToggleLock }}" style="height:36px;padding:0 14px;border:1px solid #dde0ec;background:#ffffff;border-radius:8px;font-size:13px;font-weight:700;color:#2c3356">{{ lockBtnLabel }}</button>
+            <button type="button" onClick="{{ onToggleLock }}" style="height:36px;padding:0 14px;border:1px solid #2e2b28;background:#1e1c1a;border-radius:2px;font-size:13px;font-weight:700;color:#f2f0ec">{{ lockBtnLabel }}</button>
           </div>
           <div style="padding:4px 16px 16px">
             <sc-for list="{{ adminMarkets }}" as="m" hint-placeholder-count="5">
-              <div style="padding:13px 0;border-bottom:1px solid #eef0f6">
+              <div style="padding:13px 0;border-bottom:1px solid #242220">
                 <div style="display:flex;gap:8px;align-items:baseline;margin-bottom:8px">
                   <span>{{ m.ico }}</span>
-                  <span style="font-size:13.5px;font-weight:700;color:#2c3356">{{ m.title }}</span>
+                  <span style="font-size:13.5px;font-weight:700;color:#f2f0ec">{{ m.title }}</span>
                   <span style="{{ m.stateStyle }}">{{ m.stateLabel }}</span>
                 </div>
                 <div style="display:flex;flex-wrap:wrap;gap:6px">
                   <sc-for list="{{ m.options }}" as="o" hint-placeholder-count="4">
                     <button type="button" onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
                   </sc-for>
-                  <button type="button" onClick="{{ m.onClearResult }}" style="border:1px solid #dde0ec;background:#ffffff;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:#9299b8">{{ t.clear }}</button>
+                  <button type="button" onClick="{{ m.onClearResult }}" style="border:1px solid #2e2b28;background:#1e1c1a;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:#57524b">{{ t.clear }}</button>
                 </div>
               </div>
             </sc-for>
@@ -423,46 +424,46 @@ input,textarea,select{font-family:inherit}
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;align-items:start">
-          <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:16px">
-            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.newMarket }}</h2>
-            <div style="font-size:12.5px;color:#9299b8;margin:2px 0 12px">{{ t.newMarketSub }}</div>
+          <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);padding:16px">
+            <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.newMarket }}</h2>
+            <div style="font-size:12.5px;color:#57524b;margin:2px 0 12px">{{ t.newMarketSub }}</div>
             <div style="display:flex;flex-direction:column;gap:9px">
               <div style="display:flex;gap:8px">
-                <input type="text" maxlength="2" value="{{ newIco }}" onInput="{{ onNewIco }}" aria-label="icon" style="width:52px;height:40px;text-align:center;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:18px">
-                <input type="text" maxlength="60" value="{{ newTitle }}" onInput="{{ onNewTitle }}" placeholder="{{ t.marketTitle }}" style="flex:1;height:40px;padding:0 11px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:14px;color:#2c3356">
+                <input type="text" maxlength="2" value="{{ newIco }}" onInput="{{ onNewIco }}" aria-label="icon" style="width:52px;height:40px;text-align:center;border:1px solid #2e2b28;border-radius:2px;background:#141312;font-size:18px">
+                <input type="text" maxlength="60" value="{{ newTitle }}" onInput="{{ onNewTitle }}" placeholder="{{ t.marketTitle }}" style="flex:1;height:40px;padding:0 11px;border:1px solid #2e2b28;border-radius:2px;background:#141312;font-size:14px;color:#f2f0ec">
               </div>
-              <textarea rows="5" value="{{ newOpts }}" onInput="{{ onNewOpts }}" placeholder="{{ t.optionsPlaceholder }}" style="width:100%;padding:10px 11px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:13.5px;color:#2c3356;resize:vertical"></textarea>
+              <textarea rows="5" value="{{ newOpts }}" onInput="{{ onNewOpts }}" placeholder="{{ t.optionsPlaceholder }}" style="width:100%;padding:10px 11px;border:1px solid #2e2b28;border-radius:2px;background:#141312;font-size:13.5px;color:#f2f0ec;resize:vertical"></textarea>
               <div style="display:flex;gap:8px;align-items:center">
-                <button type="button" onClick="{{ onAddMarket }}" style="height:38px;padding:0 15px;border:0;border-radius:8px;background:#1B2C9B;color:#ffffff;font-size:13.5px;font-weight:700">{{ t.addMarket }}</button>
-                <span style="font-size:12px;color:#9299b8">{{ t.addMarketHint }}</span>
+                <button type="button" onClick="{{ onAddMarket }}" style="height:38px;padding:0 15px;border:0;border-radius:2px;background:#e8ff3a;color:#141312;font-size:13.5px;font-weight:700">{{ t.addMarket }}</button>
+                <span style="font-size:12px;color:#57524b">{{ t.addMarketHint }}</span>
               </div>
             </div>
           </div>
 
-          <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);padding:16px">
-            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.announce }}</h2>
-            <div style="font-size:12.5px;color:#9299b8;margin:2px 0 12px">{{ t.announceSub }}</div>
-            <textarea rows="3" value="{{ annDraft }}" onInput="{{ onAnnDraft }}" placeholder="{{ t.announcePlaceholder }}" style="width:100%;padding:10px 11px;border:1px solid #dde0ec;border-radius:8px;background:#f7f8fc;font-size:13.5px;color:#2c3356;resize:vertical"></textarea>
+          <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);padding:16px">
+            <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.announce }}</h2>
+            <div style="font-size:12.5px;color:#57524b;margin:2px 0 12px">{{ t.announceSub }}</div>
+            <textarea rows="3" value="{{ annDraft }}" onInput="{{ onAnnDraft }}" placeholder="{{ t.announcePlaceholder }}" style="width:100%;padding:10px 11px;border:1px solid #2e2b28;border-radius:2px;background:#141312;font-size:13.5px;color:#f2f0ec;resize:vertical"></textarea>
             <div style="display:flex;gap:8px;margin-top:9px">
-              <button type="button" onClick="{{ onPublishAnn }}" style="height:38px;padding:0 15px;border:0;border-radius:8px;background:#c47b0b;color:#ffffff;font-size:13.5px;font-weight:700">{{ t.publish }}</button>
-              <button type="button" onClick="{{ onClearAnn }}" style="height:38px;padding:0 13px;border:1px solid #dde0ec;background:#ffffff;border-radius:8px;font-size:13.5px;font-weight:600;color:#5a6282">{{ t.clear }}</button>
+              <button type="button" onClick="{{ onPublishAnn }}" style="height:38px;padding:0 15px;border:0;border-radius:2px;background:#e8b64c;color:#141312;font-size:13.5px;font-weight:700">{{ t.publish }}</button>
+              <button type="button" onClick="{{ onClearAnn }}" style="height:38px;padding:0 13px;border:1px solid #2e2b28;background:#1e1c1a;border-radius:2px;font-size:13.5px;font-weight:600;color:#8d867d">{{ t.clear }}</button>
             </div>
           </div>
         </div>
 
-        <div style="background:#ffffff;border:1px solid #dde0ec;border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden">
-          <div style="padding:14px 16px;border-bottom:1px solid #eef0f6">
-            <h2 style="margin:0;font-size:15px;font-weight:800;color:#2c3356">{{ t.roster }}</h2>
-            <div style="font-size:12.5px;color:#9299b8;margin-top:2px">{{ t.rosterSub }}</div>
+        <div style="background:#1e1c1a;border:1px solid #2e2b28;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid #242220">
+            <h2 style="margin:0;font-family:'Secular One',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.01em;color:#f2f0ec">{{ t.roster }}</h2>
+            <div style="font-size:12.5px;color:#57524b;margin-top:2px">{{ t.rosterSub }}</div>
           </div>
           <div style="padding:8px">
             <sc-for list="{{ roster }}" as="p" hint-placeholder-count="4">
-              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:2px">
                 <span style="{{ p.avatarStyle }}">{{ p.initials }}</span>
-                <span style="flex:1;min-width:0;font-size:13.5px;font-weight:600;color:#2c3356;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
-                <span style="font-family:'Inter',monospace;font-size:12px;color:#9299b8">{{ p.meta }}</span>
-                <button type="button" onClick="{{ p.onResetPin }}" style="border:1px solid #dde0ec;background:#ffffff;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:#5a6282">{{ t.resetPin }}</button>
-                <button type="button" onClick="{{ p.onRemove }}" style="border:1px solid #fdecea;background:#fdecea;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:#c0392b">{{ t.remove }}</button>
+                <span style="flex:1;min-width:0;font-size:13.5px;font-weight:600;color:#f2f0ec;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+                <span style="font-family:'Space Mono',monospace;font-size:12px;color:#57524b">{{ p.meta }}</span>
+                <button type="button" onClick="{{ p.onResetPin }}" style="border:1px solid #2e2b28;background:#1e1c1a;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:#8d867d">{{ t.resetPin }}</button>
+                <button type="button" onClick="{{ p.onRemove }}" style="border:1px solid #2a1512;background:#2a1512;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:#ff6b4a">{{ t.remove }}</button>
               </div>
             </sc-for>
           </div>
@@ -477,12 +478,12 @@ input,textarea,select{font-family:inherit}
 
 <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
   <div style="position:fixed;inset-inline:0;bottom:22px;display:flex;justify-content:center;pointer-events:none;z-index:50">
-    <div style="background:#2c3356;color:#ffffff;border-radius:999px;padding:10px 18px;font-size:13.5px;font-weight:600;box-shadow:0 10px 30px rgba(10,16,60,.3);animation:dkpop .25s ease">{{ toast }}</div>
+    <div style="background:#f2f0ec;color:#141312;border-radius:999px;padding:10px 18px;font-size:13.5px;font-weight:600;box-shadow:0 10px 30px rgba(10,16,60,.3);animation:dkpop .25s ease">{{ toast }}</div>
   </div>
 </sc-if>
 
 <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}">
-  <div style="position:fixed;inset-inline-start:14px;bottom:14px;background:#fef3dc;color:#7a5307;border:1px solid #f0dfb4;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;z-index:40">{{ t.offline }}</div>
+  <div style="position:fixed;inset-inline-start:14px;bottom:14px;background:#2a2413;color:#e8b64c;border:1px solid #3a3418;border-radius:2px;padding:7px 12px;font-size:12px;font-weight:600;z-index:40">{{ t.offline }}</div>
 </sc-if>
 
 </div>
@@ -675,7 +676,7 @@ class Component extends DCLogic {
       return {id:path.split("/").pop(),exists:!!d,data:function(){return d;}}; }
     function docRef(path){ return {
       get:function(){ return Promise.resolve(snapDoc(path)); },
-      set:function(d){ var a=read(); a[path]=d; write(a); return Promise.resolve(); },
+      set:function(d,opt){ var a=read(); a[path]=(opt&&opt.merge)?Object.assign({},a[path]||{},d):d; write(a); return Promise.resolve(); },
       update:function(d){ var a=read(); a[path]=Object.assign({},a[path]||{},d); write(a); return Promise.resolve(); },
       "delete":function(){ var a=read(); delete a[path]; write(a); return Promise.resolve(); },
       onSnapshot:function(n){ var f=function(){ n(snapDoc(path)); }; listeners.push(f); f(); return function(){ listeners=listeners.filter(function(x){return x!==f;}); }; }
@@ -690,9 +691,27 @@ class Component extends DCLogic {
     return {doc:docRef,collection:collRef,local:true};
   }
 
+  loadScript(src){ return new Promise(function(res,rej){
+    var s=document.createElement("script"); s.src=src; s.async=true;
+    s.onload=function(){ res(true); }; s.onerror=function(){ rej(new Error("load")); };
+    document.head.appendChild(s); }); }
+  async loadFirestore(){
+    var cfg = window.DIRKS_FIREBASE;
+    if(!cfg || !cfg.apiKey || !cfg.projectId) return null;
+    try{
+      if(!window.firebase || !window.firebase.firestore){
+        await this.loadScript("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js");
+        await this.loadScript("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js");
+      }
+      if(!window.firebase || !window.firebase.firestore) return null;
+      if(!window.firebase.apps.length) window.firebase.initializeApp(cfg);
+      return window.firebase.firestore();
+    }catch(e){ return null; }
+  }
   async boot(){
     var db=null;
     try{ db = await window.claude.use("db"); }catch(e){ db=null; }
+    if(!db) db = await this.loadFirestore();
     if(!db){ db=this.localDB(); this.setState({offline:true}); }
     this.db=db;
     try{
@@ -731,7 +750,7 @@ class Component extends DCLogic {
     for(var k in players){ if((players[k].name||"").trim().toLowerCase()===name.toLowerCase()) found=players[k]; }
     if(found){
       if(found.pin && found.pin!==pin){ this.setState({loginErr:t.pinWrong}); return; }
-      if(!found.pin && this.db) this.db.doc("players/"+found.pid).update({pin:pin}).catch(function(){});
+      if(!found.pin && this.db) this.db.doc("players/"+found.pid).set({pin:pin},{merge:true}).catch(function(){});
       try{ localStorage.setItem("dirks2.session",found.pid); }catch(e){}
       this.setState({pid:found.pid,loginErr:"",loginPin:""});
       return;
@@ -836,7 +855,7 @@ class Component extends DCLogic {
   }
   publishAnn(){ this.saveWeek({note:this.state.annDraft.trim()},this.tt().saved); }
   clearAnn(){ this.setState({annDraft:""}); this.saveWeek({note:""},this.tt().saved); }
-  resetPin(pid){ if(this.db) this.db.doc("players/"+pid).update({pin:""}).catch(function(){});
+  resetPin(pid){ if(this.db) this.db.doc("players/"+pid).set({pin:""},{merge:true}).catch(function(){});
     var p=Object.assign({},this.state.players);
     if(p[pid]){ p[pid]=Object.assign({},p[pid],{pin:""}); }
     this.setState({players:p}); this.toast(this.tt().saved); }
@@ -869,8 +888,8 @@ class Component extends DCLogic {
     } else cd = lang==="en"?"locked":"נעול";
 
     var statusText = settled? t.settled : (S.now<lockMs? t.open : t.locked);
-    var statusBg = settled? "rgba(123,93,181,.22)" : (S.now<lockMs? "rgba(26,140,91,.22)" : "rgba(255,255,255,.12)");
-    var statusFg = settled? "#ddd2f2" : (S.now<lockMs? "#b6ecd1" : "rgba(255,255,255,.8)");
+    var statusBg = settled? "rgba(255,61,127,.18)" : (S.now<lockMs? "rgba(140,255,107,.14)" : "#1a1817");
+    var statusFg = settled? "#ffa8c8" : (S.now<lockMs? "#8cff6b" : "rgba(255,255,255,.8)");
     var statusPillStyle = "display:inline-flex;align-items:center;gap:6px;background:"+statusBg+";color:"+statusFg+";border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700";
 
     /* tabs */
@@ -882,10 +901,10 @@ class Component extends DCLogic {
       var active=S.tab===d[0];
       return {label:d[1],
         onClick:function(){ self.setState({tab:d[0]}); },
-        style:"display:flex;align-items:center;gap:7px;border:0;background:"+(active?"#f7f8fc":"transparent")+";color:"+(active?"#1B2C9B":"rgba(255,255,255,.72)")+
-          ";font-size:13.5px;font-weight:"+(active?"800":"600")+";padding:11px 16px;border-radius:9px 9px 0 0;white-space:nowrap",
+        style:"display:flex;align-items:center;gap:7px;border:0;background:"+(active?"#141312":"transparent")+";color:"+(active?"#e8ff3a":"#8d867d")+
+          ";font-size:13.5px;font-weight:"+(active?"800":"600")+";padding:11px 16px;border-radius:2px 9px 0 0;white-space:nowrap",
         badge: d[0]==="bet" && signedIn ? (myBetCount+"/"+ids.length) : "",
-        badgeStyle:"font-family:'Inter',monospace;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:"+(active?"#1B2C9B":"rgba(255,255,255,.18)")+";color:#fff"};
+        badgeStyle:"font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:"+(active?"#e8ff3a":"#2e2b28")+";color:#fff"};
     });
 
     /* budget */
@@ -905,8 +924,8 @@ class Component extends DCLogic {
       var m=all[mid]; if(!m) return null;
       var isFixed=self.FIXED.some(function(f){return f.id===mid;});
       var kind = m.custom? t.custom : (isFixed? t.fixed : t.rotating);
-      var kindColor = m.custom? "#7B5DB5" : (isFixed? "#1B2C9B" : "#5a6282");
-      var kindBg = m.custom? "#f0ebf8" : (isFixed? "#e8ebf9" : "#eef0f6");
+      var kindColor = m.custom? "#ff3d7f" : (isFixed? "#e8ff3a" : "#8d867d");
+      var kindBg = m.custom? "#2a1c22" : (isFixed? "#2e2b28" : "#242220");
       var mine=self.myBet(mid), wins=self.winnersOf(self.CUR,mid);
       var sel = S.sel[mid] || (mine? self.picksOf(mine) : []);
       var sh=self.shares(mid);
@@ -917,25 +936,25 @@ class Component extends DCLogic {
         var picked = sel.indexOf(o.id)>=0;
         var won = wins && wins.indexOf(o.id)>=0;
         var lost = wins && !won;
-        var bg = won? "#e3f5ed" : (picked? "#f0ebf8" : "#ffffff");
-        var bc = won? "#1a8c5b" : (picked? "#7B5DB5" : "#dde0ec");
+        var bg = won? "#1a2414" : (picked? "#2a1c22" : "#141312");
+        var bc = won? "#8cff6b" : (picked? "#ff3d7f" : "#2e2b28");
         var pct = sh.total? Math.round((sh.by[o.id]||0)/sh.total*100) : 0;
         return {
           label:self.oLabel(o),
-          labelStyle:"flex:1;min-width:0;font-size:13.5px;font-weight:"+(picked||won?"700":"500")+";color:"+(won?"#12percent":"#2c3356")+";text-align:start;text-wrap:pretty",
+          labelStyle:"flex:1;min-width:0;font-size:13.5px;font-weight:"+(picked||won?"700":"500")+";color:"+(won?"#12percent":"#f2f0ec")+";text-align:start;text-wrap:pretty",
           style:"display:flex;align-items:center;gap:10px;width:100%;text-align:start;background:"+bg+";border:1px solid "+bc+
-            ";border-radius:9px;padding:10px 12px;font-family:inherit;opacity:"+(lost?".5":"1")+";box-shadow:"+(picked||won?"inset 0 0 0 1px "+bc:"none")+
+            ";border-radius:2px;padding:10px 12px;font-family:inherit;opacity:"+(lost?".5":"1")+";box-shadow:"+(picked||won?"inset 0 0 0 1px "+bc:"none")+
             ";cursor:"+(canBet?"pointer":"default"),
           disabled: !canBet,
           onPick:function(){ if(canBet) self.pick(mid,o.id); },
           showShare: showSent && sh.total>0,
-          shareStyle:"display:block;height:100%;width:"+pct+"%;background:"+(picked?"#7B5DB5":"#9299b8"),
+          shareStyle:"display:block;height:100%;width:"+pct+"%;background:"+(picked?"#ff3d7f":"#57524b"),
           pctText: sh.total? pct+"%" : "",
           oddsText:"×"+o.odds.toFixed(1),
-          oddsStyle:"font-family:'Inter',monospace;font-size:13px;font-weight:700;color:"+(won?"#1a8c5b":"#1B2C9B")+";min-width:38px;text-align:end"
+          oddsStyle:"font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:"+(won?"#8cff6b":"#e8ff3a")+";min-width:38px;text-align:end"
         };
       });
-      options.forEach(function(o){ o.labelStyle=o.labelStyle.replace("#12percent","#0f6e48"); });
+      options.forEach(function(o){ o.labelStyle=o.labelStyle.replace("#12percent","#8cff6b"); });
 
       /* stake row text */
       var pickLine = m.multi
@@ -953,19 +972,19 @@ class Component extends DCLogic {
         if(mine){ var pay=self.payoutOf(self.CUR,mine,wins);
           myLine = pay>0? (t.won+self.nf(pay)+" "+t.dk) : (t.lost+" "+self.nf(mine.amount)+" "+t.dk); }
         else myLine = t.noBetHere;
-        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #dde0ec;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font-size:13px;color:#5a6282";
+        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #2e2b28;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font-size:13px;color:#8d867d";
       } else if(locked){
         statusLine = t.lockedWait;
         if(mine) myLine = t.yourBet+": "+self.nf(mine.amount)+" "+t.dk+" · "+self.picksOf(mine).map(function(p){return self.labelOf(self.CUR,mid,p);}).join(" · ");
-        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #dde0ec;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font-size:13px;color:#9299b8";
+        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #2e2b28;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font-size:13px;color:#57524b";
       } else if(!signedIn){
         statusLine = t.loginHelp;
-        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #dde0ec;font-size:13px;color:#9299b8";
+        statusLineStyle="margin:13px 16px 0;padding:12px 0 15px;border-top:1px dashed #2e2b28;font-size:13px;color:#57524b";
       }
 
       return {
         ico:m.ico, title:self.mTitle(m), sub:self.mSub(m),
-        cardStyle:"background:#ffffff;border:1px solid "+(mine?"#c9bde6":"#dde0ec")+";border-radius:12px;box-shadow:0 1px 3px rgba(27,44,155,.06);overflow:hidden;padding-bottom:"+(canBet||statusLine?"0":"15px"),
+        cardStyle:"background:#1e1c1a;border:1px solid "+(mine?"#46333a":"#2e2b28")+";border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.45);overflow:hidden;padding-bottom:"+(canBet||statusLine?"0":"15px"),
         kindLabel:kind,
         kindStyle:"background:"+kindBg+";color:"+kindColor+";font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;border-radius:999px;white-space:nowrap;flex:none",
         options:options,
@@ -978,10 +997,10 @@ class Component extends DCLogic {
         onClear:function(){ self.clearBet(mid); },
         placeDisabled: !sel.length,
         placeLabel: mine? t.update : t.place,
-        placeStyle:"height:38px;padding:0 16px;border:0;border-radius:8px;background:"+(sel.length?"#1B2C9B":"#dde0ec")+";color:"+(sel.length?"#ffffff":"#9299b8")+";font-size:13.5px;font-weight:700",
+        placeStyle:"height:38px;padding:0 16px;border:0;border-radius:2px;background:"+(sel.length?"#e8ff3a":"#2e2b28")+";color:"+(sel.length?"#141312":"#57524b")+";font-size:13.5px;font-weight:700",
         pickLine:pickLine,
         payoutLine:payoutLine,
-        payoutLineStyle:"font-family:'Inter',monospace;font-size:12.5px;font-weight:700;color:#1a8c5b",
+        payoutLineStyle:"font-family:'Space Mono',monospace;font-size:12.5px;font-weight:700;color:#8cff6b",
         statusLine:statusLine, myLine:myLine, statusLineStyle:statusLineStyle
       };
     }).filter(Boolean);
@@ -998,14 +1017,14 @@ class Component extends DCLogic {
         if(n<bigLoss.v) bigLoss={name:self.nameOf(pid),v:n}; });
     }
     var stats=[
-      {label:t.totalInPlay,value:this.nf(totalPlay)+" "+t.dk,sub:this.fmtRange(this.CUR),color:"#1B2C9B"},
-      {label:t.players,value:Object.keys(placedPids).length+"/"+pidList.length,sub:settled?t.settled:(locked?t.locked:t.open),color:"#7B5DB5"},
-      {label:t.biggestWin,value:settled?this.signed(bigWin.v):"—",sub:settled?bigWin.name:(lang==="en"?"after results":"אחרי התוצאות"),color:"#1a8c5b"},
-      {label:t.biggestLoss,value:settled?this.signed(bigLoss.v):"—",sub:settled?bigLoss.name:(lang==="en"?"after results":"אחרי התוצאות"),color:"#c0392b"}
+      {label:t.totalInPlay,value:this.nf(totalPlay)+" "+t.dk,sub:this.fmtRange(this.CUR),color:"#e8ff3a"},
+      {label:t.players,value:Object.keys(placedPids).length+"/"+pidList.length,sub:settled?t.settled:(locked?t.locked:t.open),color:"#ff3d7f"},
+      {label:t.biggestWin,value:settled?this.signed(bigWin.v):"—",sub:settled?bigWin.name:(lang==="en"?"after results":"אחרי התוצאות"),color:"#8cff6b"},
+      {label:t.biggestLoss,value:settled?this.signed(bigLoss.v):"—",sub:settled?bigLoss.name:(lang==="en"?"after results":"אחרי התוצאות"),color:"#ff6b4a"}
     ].map(function(s){
       return {label:s.label,value:s.value,sub:s.sub,
         dotStyle:"width:9px;height:9px;border-radius:50%;background:"+s.color+";display:block;flex:none",
-        valueStyle:"font-family:'Inter',monospace;font-size:26px;font-weight:700;line-height:1.15;margin-top:7px;color:"+s.color+";font-variant-numeric:tabular-nums"};
+        valueStyle:"font-family:'Space Mono',monospace;font-size:26px;font-weight:700;line-height:1.15;margin-top:7px;color:"+s.color+";font-variant-numeric:tabular-nums"};
     });
 
     var season=this.seasonTable();
@@ -1014,18 +1033,18 @@ class Component extends DCLogic {
       return {rank:i+1,name:r.name,initials:self.initialsOf(r.name),
         meta:r.rounds+(lang==="en"?"r":" מח׳"),
         net:self.signed(r.total),
-        rowStyle:"display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:"+(me?"#f0ebf8":"transparent"),
-        avatarStyle:"width:26px;height:26px;border-radius:50%;background:"+(me?"#7B5DB5":"#eef0f6")+";color:"+(me?"#ffffff":"#5a6282")+";display:grid;place-items:center;font-size:10.5px;font-weight:700;flex:none",
-        netStyle:"font-family:'Inter',monospace;font-size:13.5px;font-weight:700;min-width:58px;text-align:end;color:"+(r.total>0?"#1a8c5b":(r.total<0?"#c0392b":"#5a6282"))};
+        rowStyle:"display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:2px;background:"+(me?"#2a1c22":"transparent"),
+        avatarStyle:"width:26px;height:26px;border-radius:50%;background:"+(me?"#ff3d7f":"#242220")+";color:"+(me?"#141312":"#8d867d")+";display:grid;place-items:center;font-size:10.5px;font-weight:700;flex:none",
+        netStyle:"font-family:'Space Mono',monospace;font-size:13.5px;font-weight:700;min-width:58px;text-align:end;color:"+(r.total>0?"#8cff6b":(r.total<0?"#ff6b4a":"#8d867d"))};
     });
 
     var placedList=Object.keys(placedPids).map(function(pid){
       return {name:self.nameOf(pid)+" ",amount:self.nf(placedPids[pid]),
-        style:"display:inline-flex;align-items:center;gap:6px;background:#e3f5ed;color:#0f6e48;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600"};
+        style:"display:inline-flex;align-items:center;gap:6px;background:#1a2414;color:#8cff6b;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600"};
     });
     var missingList=pidList.filter(function(pid){ return !placedPids[pid]; }).map(function(pid){
       return {name:self.nameOf(pid),
-        style:"display:inline-flex;background:#fef3dc;color:#7a5307;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600"};
+        style:"display:inline-flex;background:#2a2413;color:#e8b64c;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600"};
     });
 
     var sentiment = ids.map(function(mid){
@@ -1035,7 +1054,7 @@ class Component extends DCLogic {
         var amt=sh.by[o.id]||0, pct=sh.total? Math.round(amt/sh.total*100):0;
         var wins=self.winnersOf(self.CUR,mid), won=wins&&wins.indexOf(o.id)>=0;
         return {label:self.oLabel(o),value:self.nf(amt),
-          barStyle:"height:100%;width:"+pct+"%;background:"+(won?"#1a8c5b":"#1B2C9B")+";border-radius:4px"};
+          barStyle:"height:100%;width:"+pct+"%;background:"+(won?"#8cff6b":"#e8ff3a")+";border-radius:4px"};
       }).sort(function(a,b){ return (+b.value.replace(/,/g,""))-(+a.value.replace(/,/g,"")); });
       return {ico:m.ico,title:self.mTitle(m),total:self.nf(sh.total)+" "+t.dk,rows:rows};
     }).filter(Boolean);
@@ -1047,19 +1066,19 @@ class Component extends DCLogic {
       return {name:r.name,initials:self.initialsOf(r.name),rounds:String(r.rounds),
         hit: h.tot? Math.round(h.hit/h.tot*100)+"%" : "—",
         net:self.signed(r.total),
-        trStyle:"background:"+(me?"#f7f5fc":"transparent"),
-        avatarStyle:"width:26px;height:26px;border-radius:50%;background:"+(me?"#7B5DB5":"#eef0f6")+";color:"+(me?"#ffffff":"#5a6282")+";display:grid;place-items:center;font-size:10.5px;font-weight:700;flex:none",
-        netTdStyle:"padding:10px 14px;border-bottom:1px solid #eef0f6;text-align:end;font-family:'Inter',monospace;font-weight:700;font-variant-numeric:tabular-nums;color:"+(r.total>0?"#1a8c5b":(r.total<0?"#c0392b":"#5a6282"))};
+        trStyle:"background:"+(me?"#26231f":"transparent"),
+        avatarStyle:"width:26px;height:26px;border-radius:50%;background:"+(me?"#ff3d7f":"#242220")+";color:"+(me?"#141312":"#8d867d")+";display:grid;place-items:center;font-size:10.5px;font-weight:700;flex:none",
+        netTdStyle:"padding:10px 14px;border-bottom:1px solid #242220;text-align:end;font-family:'Space Mono',monospace;font-weight:700;font-variant-numeric:tabular-nums;color:"+(r.total>0?"#8cff6b":(r.total<0?"#ff6b4a":"#8d867d"))};
     });
 
     var settledIds=Object.keys(S.weeks).filter(function(w){ return self.isSettled(w); }).sort().reverse();
-    var headStyle="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#5a6282;border-bottom:1px solid #dde0ec;white-space:nowrap";
+    var headStyle="text-align:start;padding:9px 14px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#8d867d;border-bottom:1px solid #2e2b28;white-space:nowrap";
     var archHead=[{label:t.round,style:headStyle}].concat(season.map(function(r){ return {label:r.name,style:headStyle}; }));
     var archRows=settledIds.map(function(wid){
-      var cells=[{value:self.fmtRange(wid),style:"padding:9px 14px;border-bottom:1px solid #eef0f6;font-family:'Inter',monospace;font-weight:600;color:#2c3356;white-space:nowrap"}];
+      var cells=[{value:self.fmtRange(wid),style:"padding:9px 14px;border-bottom:1px solid #242220;font-family:'Space Mono',monospace;font-weight:600;color:#f2f0ec;white-space:nowrap"}];
       season.forEach(function(r){ var n=self.netFor(wid,r.pid);
         cells.push({value:self.signed(n),
-          style:"padding:9px 14px;border-bottom:1px solid #eef0f6;font-family:'Inter',monospace;font-variant-numeric:tabular-nums;color:"+(n>0?"#1a8c5b":(n<0?"#c0392b":"#9299b8"))}); });
+          style:"padding:9px 14px;border-bottom:1px solid #242220;font-family:'Space Mono',monospace;font-variant-numeric:tabular-nums;color:"+(n>0?"#8cff6b":(n<0?"#ff6b4a":"#57524b"))}); });
       return {cells:cells};
     });
 
@@ -1069,11 +1088,11 @@ class Component extends DCLogic {
       var wins=self.winnersOf(self.CUR,mid)||[];
       return {ico:m.ico,title:self.mTitle(m),
         stateLabel: wins.length? (lang==="en"?"settled":"נסגר") : (lang==="en"?"open":"פתוח"),
-        stateStyle:"font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:"+(wins.length?"#e3f5ed":"#eef0f6")+";color:"+(wins.length?"#0f6e48":"#5a6282"),
+        stateStyle:"font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:"+(wins.length?"#1a2414":"#242220")+";color:"+(wins.length?"#8cff6b":"#8d867d"),
         options:m.options.map(function(o){
           var on=wins.indexOf(o.id)>=0;
           return {label:self.oLabel(o),onClick:function(){ self.setResult(mid,o.id); },
-            style:"border:1px solid "+(on?"#1a8c5b":"#dde0ec")+";background:"+(on?"#1a8c5b":"#ffffff")+";color:"+(on?"#ffffff":"#2c3356")+
+            style:"border:1px solid "+(on?"#8cff6b":"#2e2b28")+";background:"+(on?"#8cff6b":"#141312")+";color:"+(on?"#141312":"#f2f0ec")+
               ";border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:"+(on?"700":"600")};
         }),
         onClearResult:function(){ self.setResult(mid,""); }};
@@ -1083,7 +1102,7 @@ class Component extends DCLogic {
       var p=S.players[pid]||{};
       return {name:self.nameOf(pid),initials:self.initialsOf(self.nameOf(pid)),
         meta:(p.pin? "•••• " : (lang==="en"?"no code ":"בלי קוד "))+self.nf(self.stakedBy(self.CUR,pid))+" "+t.dk,
-        avatarStyle:"width:28px;height:28px;border-radius:50%;background:#eef0f6;color:#5a6282;display:grid;place-items:center;font-size:11px;font-weight:700;flex:none",
+        avatarStyle:"width:28px;height:28px;border-radius:50%;background:#242220;color:#8d867d;display:grid;place-items:center;font-size:11px;font-weight:700;flex:none",
         onResetPin:function(){ self.resetPin(pid); },
         onRemove:function(){ self.removePlayer(pid); }};
     });
@@ -1115,7 +1134,7 @@ class Component extends DCLogic {
       isBet:S.tab==="bet", isDash:S.tab==="dash", isSeason:S.tab==="season", isAdminTab:S.tab==="admin",
       /* bet */
       leftText:this.nf(left), grantText:"/ "+this.nf(grant)+" "+t.dk,
-      budgetBarStyle:"height:100%;width:"+(left/grant*100)+"%;background:#1B2C9B;border-radius:5px",
+      budgetBarStyle:"height:100%;width:"+(left/grant*100)+"%;background:#e8ff3a;border-radius:5px",
       budgetSub:budgetSub,
       myBetsLine: myBetCount+"/"+ids.length,
       myMaxPayout: this.nf(maxPay),
